@@ -54,8 +54,8 @@ This will create a `dist` folder which can be served now
 There are three pages in this site.
 
 - `/` - This is the main page where the user can create, edit or delete the tasks.
-- `/login` - This is the login page.
-- `/register` - This is the register page.
+- `/login/` - This is the login page.
+- `/register/` - This is the register page.
 
 We have also created a backend server containing the API endpoints required for this application to function completely  - [https://todo-app-csoc.herokuapp.com/](https://todo-app-csoc.herokuapp.com/)
 
