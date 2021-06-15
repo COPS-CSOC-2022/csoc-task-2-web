@@ -10,7 +10,7 @@ In this task you will be working on a todo application made using basic HTML, CS
 
 Follow the following steps to setup this project.
 
-*Note* - Make sure you have node installed in your system. If not, follow the steps given [here](https://nodejs.org/en/download/) to install it.
+*Note* - Make sure you have node and npm installed in your system. If not, follow the steps given [here](https://nodejs.org/en/download/) to install it.
 
 ### Fork this repository
 First of all, click on the top-right corner of this repository to fork it.
@@ -27,17 +27,27 @@ cd csoc-2021-task-2-web
 ```
 
 ### Run the server
-For this you need `http-server` installed. You can do it by running this command
+
+Install the dependencies using
 ```
-npm install http-server -g
+npm i
 ```
 
 Then you can finally run the server using this command.
 ```
-http-server
+npm run dev
 ```
 
-Then you can go to `localhost:8080` in your browser.
+Then you can go to `localhost:3000` in your browser.
+
+### Deploying App
+
+You can use netlify or vercel for deploying your app. The build command is
+```
+npm run build
+```
+
+This will create a `dist` folder which can be served now
 
 ## Todo Application
 
@@ -81,7 +91,7 @@ Here is the breakdown of the points related to each task.
 Judging would be done on the basis of your implementation and authenticity.
 
 ## Deadline
-You'll have a week to complete this task. Hence, the deadline of this task is **30th April, 2020** i.e. till the end of this month.
+You'll have a week to complete this task. Hence, the deadline of this task is **21st June, 2021** i.e. till the end of this month.
 
 ## Submission
 * Follow the instructions to setup this project.
@@ -104,10 +114,10 @@ In order to obtain a valid token it's necessary to send a request  `POST /auth/l
 
 **Auth**
 
--   `POST /auth/login/` 
+-   `POST /auth/login/`
 
-	Takes the username and password as input, validates them and returns the **Token**, if the credentials are valid.  
-  
+	Takes the username and password as input, validates them and returns the **Token**, if the credentials are valid.
+
 	Request Body (Sample):
 	```
 	{
@@ -122,11 +132,11 @@ In order to obtain a valid token it's necessary to send a request  `POST /auth/l
 	}
 	```
 	Response Code: `200`
-	
+
 -   `POST /auth/register/`
 
 	Register a user in Django by taking the name, email, username and password as input.
-  
+
 	Request Body (Sample):
 	```
 	{
@@ -143,11 +153,11 @@ In order to obtain a valid token it's necessary to send a request  `POST /auth/l
 	}
 	```
 	Response Code: `200`
-	
+
 -   `POST /auth/profile/`
 
 	Retrieve the id, name, email and username of the logged in user. Requires token in the Authorization header.
-  
+
 	Response Body (Sample):
 	```
 	{
@@ -165,7 +175,7 @@ In order to obtain a valid token it's necessary to send a request  `POST /auth/l
 -   `GET /todo/`
 
 	Get all the Todos of the logged in user. Requires token in the Authorization header.
-  
+
 	Response Body (Sample):
 	```
 	[
@@ -184,7 +194,7 @@ In order to obtain a valid token it's necessary to send a request  `POST /auth/l
 -   `POST /todo/create/`
 
 	Create a Todo entry for the logged in user. Requires token in the Authorization header.
-  
+
 	Request Body (Sample):
 	```
 	{
@@ -196,7 +206,7 @@ In order to obtain a valid token it's necessary to send a request  `POST /auth/l
 -   `GET /todo/{id}/`
 
 	Get the Todo of the logged in user with given id. Requires token in the Authorization header.
-  
+
 	Response Body (Sample):
 	```
 	{
@@ -209,7 +219,7 @@ In order to obtain a valid token it's necessary to send a request  `POST /auth/l
 -   `PUT /todo/{id}/`
 
 	Change the title of the Todo with given id, and get the new title as response. Requires token in the Authorization header.
-  
+
 	Request Body (Sample):
 	```
 	{
@@ -227,7 +237,7 @@ In order to obtain a valid token it's necessary to send a request  `POST /auth/l
 -   `PATCH /todo/{id}/`
 
 	Change the title of the Todo with given id, and get the new title as response. Requires token in the Authorization header.
-  
+
 	Request Body (Sample):
 	```
 	{
@@ -245,14 +255,14 @@ In order to obtain a valid token it's necessary to send a request  `POST /auth/l
 -   `DELETE /todo/{id}/`
 
 	Delete the Todo with given id. Requires token in the Authorization header.
-  
+
 	Response Code: `204`
 
 All the requests must be prefixed with the base URL of the API.
 Example: for login the `POST` request must be sent to `https://todo-app-csoc.herokuapp.com/auth/login/` with the required details. **Make sure to append a slash at the end, otherwise you may encounter an error while making the `POST` request.**
 
 ### Documentation
-Swagger generated docs: [https://todo-app-csoc.herokuapp.com/](https://todo-app-csoc.herokuapp.com/)  
+Swagger generated docs: [https://todo-app-csoc.herokuapp.com/](https://todo-app-csoc.herokuapp.com/)
 ReDoc generated docs: [https://todo-app-csoc.herokuapp.com/redoc/](https://todo-app-csoc.herokuapp.com/redoc/)
 
 ### Testing the API
