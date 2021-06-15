@@ -1,3 +1,4 @@
+import axios from 'axios';
 function displaySuccessToast(message) {
     iziToast.success({
         title: 'Success',
@@ -55,17 +56,15 @@ function register() {
             password: password
         }
 
-        $.ajax({
+        axios({
             url: API_BASE_URL + 'auth/register/',
-            method: 'POST',
+            method: 'post',
             data: dataForApiRequest,
-            success: function(data, status, xhr) {
-                localStorage.setItem('token', data.token);
-                window.location.href = '/';
-            },
-            error: function(xhr, status, err) {
-                displayErrorToast('An account using same email or username is already created');
-            }
+        }).then(function({data, status}) {
+          localStorage.setItem('token', data.token);
+          window.location.href = '/';
+        }).catch(function(err) {
+          displayErrorToast('An account using same email or username is already created');
         })
     }
 }
