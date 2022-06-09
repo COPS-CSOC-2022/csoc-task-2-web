@@ -8,3 +8,4 @@ I have completed the following tasks
 - [ ] Get Tasks
 - [ ] Edit Task
 - [ ] Delete Task
+- [ ] Bonus Task
