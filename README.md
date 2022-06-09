@@ -18,12 +18,12 @@ First of all, click on the top-right corner of this repository to fork it.
 ### Create a local clone of your fork
 Then, clone your forked repository using this command:
 ```
-git clone https://github.com/YOUR-USERNAME/csoc-2021-task-2-web.git
+git clone https://github.com/YOUR-USERNAME/csoc-task-2-web.git
 ```
 
 Change your current directory to the repo's root.
 ```
-cd csoc-2021-task-2-web
+cd csoc-task-2-web
 ```
 
 ### Run the server
@@ -62,9 +62,11 @@ We have also created a backend server containing the API endpoints required for 
 **The complete description of the API is mentioned at the end of this readme.**
 
 ## Tasks
-You would notice that the application is not functional completely. So, your task is to make it completely functional. You would be working in `main.js`, `init.js`, `auth_required.js` and `no_auth_required.js` mainly. There are several todos mentioned in these files. You have to complete those.
+You would notice that the application is not functional completely. So, your task is to make it completely functional. You would be working in `main.js`, `init.js`, `auth_required.js` and `no_auth_required.js` mainly. There are several todos mentioned in these files. You have to complete those. The html files might need modification too.
 
-In particular you have to
+In particular you have to:
+
+- **Make all the buttons functional** - You may notice that the buttons do not work yet. You have to make edits so that the corresponding functions in `main.js` are triggered when the buttons are clicked..
 
 - **Complete the auth_required.js and no_auth_required.js** - You may notice that initially you are landed on the main page even when you are not logged in. That is wrong. In this files you have to write code to redirect user to pages based on whether he/she is authenticated or not.
 
@@ -73,6 +75,9 @@ In particular you have to
 - **Get Tasks function** - There is a function `getTasks` in `init.js`. You would notice that even after logging in, you see two tasks *Sample Task 1* and *Sample Task 2*. These tasks were not created by you. These are dummy tasks. You have complete the `getTasks` function such that the tasks listed are the ones created by the user. (You might have to complete the `addTask` function first)
 
 - **Add, Update, Delete Task function** - These functions are present in the `main.js` file. You have to complete them.
+
+- **Deploy and implement search feature (BONUS)** - You should deploy the website and implement a search task feature to search
+tasks in the ToDo list (Open to creativity).
 
 ## Points
 Here is the breakdown of the points related to each task.
@@ -85,13 +90,23 @@ Here is the breakdown of the points related to each task.
 |Get tasks|25|
 |Edit Task|35|
 |Delete Task|35|
-|**Total**|150|
+|Bonus Task|30|
+|**Total**|180|
+
+## Heads-Up & Tips
+- iziToast is a simple and fast plugin used to create responsive, elegant and CSS3 animated toast notifications of various types in the screen.
+
+- When confused on how to implement a function, try to find other completed functions that fulfill similar objectives.
+Learning from others' code and applying that knowledge for your needs, is critical for a developer.
+
+- Instead of just jumping onto the tasks, try to fiddle around and understand the flow of the code. Then, for any task,
+try to break it into further easier subtasks.
 
 ## Judging
 Judging would be done on the basis of your implementation and authenticity.
 
 ## Deadline
-You'll have a week to complete this task. Hence, the deadline of this task is **21st June, 2021** i.e. till the end of this month.
+You'll have a week to complete this task. Hence, the deadline of this task is **17th June, 2022**.
 
 ## Submission
 * Follow the instructions to setup this project.

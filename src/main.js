@@ -73,7 +73,7 @@ function login() {
     /***
      * @todo Complete this function.
      * @todo 1. Write code for form validation.
-     * @todo 2. Fetch the auth token from backend and login the user.
+     * @todo 2. Fetch the auth token from backend, login and direct user to home page.
      */
 }
 
