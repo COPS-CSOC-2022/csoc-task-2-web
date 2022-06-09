@@ -109,7 +109,7 @@ APIs are key to development, and this struggle will definitely boost your confid
 Judging would be done on the basis of your implementation and authenticity.
 
 ## Deadline
-You'll have a week to complete this task. Hence, the deadline of this task is **17th June, 2022**.
+You'll have a week to complete this task. Hence, the deadline of this task is **16th June, 2022**.
 
 ## Submission
 * Follow the instructions to setup this project.
