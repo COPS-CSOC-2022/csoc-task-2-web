@@ -102,6 +102,9 @@ Learning from others' code and applying that knowledge for your needs, is critic
 - Instead of just jumping onto the tasks, try to fiddle around and understand the flow of the code. Then, for any task,
 try to break it into further easier subtasks.
 
+- No subtask is too difficult for you. If you get stuck, try to struggle your way through by seeking assistance from any internet resource.
+APIs are key to development, and this struggle will definitely boost your confidence and skills.
+
 ## Judging
 Judging would be done on the basis of your implementation and authenticity.
 
@@ -285,3 +288,5 @@ ReDoc generated docs: [https://todo-app-csoc.herokuapp.com/redoc/](https://todo-
 The API can be tested by going to the deployed URL: [https://todo-app-csoc.herokuapp.com/](https://todo-app-csoc.herokuapp.com/), clicking the "Try it out" button after selecting the endpoint and finally executing it along with the Response Body (if required).
 
 For testing the endpoints which require **Token** in the Authorization header, you can click on the "Authorize" button, write the Authorization token as  `Token <token>` (which you have obtained from the `auth/login/` endpoint) and finally click on "Authorize". Thereafter, all the requests made to any endpoint will have the Token in the Authorization Header.
+
+### All the best!
