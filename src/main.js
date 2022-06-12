@@ -38,7 +38,12 @@ function registerFieldsAreValid(firstName, lastName, email, username, password) 
     }
     return true;
 }
-
+let register_btn = document.getElementById('register-btn');
+if (register_btn) {
+    register_btn.addEventListener('click', () => {
+        register()
+    })
+}
 function register() {
     const firstName = document.getElementById('inputFirstName').value.trim();
     const lastName = document.getElementById('inputLastName').value.trim();
@@ -60,11 +65,11 @@ function register() {
             url: API_BASE_URL + 'auth/register/',
             method: 'post',
             data: dataForApiRequest,
-        }).then(function({data, status}) {
-          localStorage.setItem('token', data.token);
-          window.location.href = '/';
-        }).catch(function(err) {
-          displayErrorToast('An account using same email or username is already created');
+        }).then(function ({ data, status }) {
+            localStorage.setItem('token', data.token);
+            window.location.href = '/';
+        }).catch(function (err) {
+            displayErrorToast('An account using same email or username is already created');
         })
     }
 }
@@ -76,7 +81,6 @@ function login() {
      * @todo 2. Fetch the auth token from backend, login and direct user to home page.
      */
 }
-
 function addTask() {
     /**
      * @todo Complete this function.
