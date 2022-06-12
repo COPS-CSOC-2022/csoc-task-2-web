@@ -22,6 +22,11 @@ function displayInfoToast(message) {
 
 const API_BASE_URL = 'https://todo-app-csoc.herokuapp.com/';
 
+const logout_btn = document.getElementById('logout-btn')
+if (logout_btn) {
+    logout_btn.addEventListener('click', logout);
+}
+
 function logout() {
     localStorage.removeItem('token');
     window.location.href = '/login/';
@@ -40,9 +45,7 @@ function registerFieldsAreValid(firstName, lastName, email, username, password) 
 }
 let register_btn = document.getElementById('register-btn');
 if (register_btn) {
-    register_btn.addEventListener('click', () => {
-        register()
-    })
+    register_btn.addEventListener('click', register)
 }
 function register() {
     const firstName = document.getElementById('inputFirstName').value.trim();
@@ -73,13 +76,33 @@ function register() {
         })
     }
 }
-
+const login_btn = document.getElementById('login-btn')
+if (login_btn) {
+    login_btn.addEventListener('click', login)
+}
 function login() {
-    /***
-     * @todo Complete this function.
-     * @todo 1. Write code for form validation.
-     * @todo 2. Fetch the auth token from backend, login and direct user to home page.
-     */
+    const username = document.getElementById('inputUsername').value.trim();
+    const password = document.getElementById('inputPassword').value;
+    console.log(username, password);
+    displayInfoToast("Please wait...");
+    const dataForApiRequest = {
+        username: username,
+        password: password
+    }
+    axios({
+        url: API_BASE_URL + 'auth/login/',
+        method: 'post',
+        data: dataForApiRequest,
+    }).then(function ({ data, status }) {
+        console.log(data);
+        localStorage.setItem('token', data.token);
+        window.location.href = '/';
+    }
+    ).catch(function (err) {
+        console.log(err);
+        displayErrorToast('Invalid username or password');
+    }
+    )
 }
 function addTask() {
     /**
