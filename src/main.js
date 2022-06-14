@@ -70,7 +70,7 @@ function register() {
             data: dataForApiRequest,
         }).then(function ({ data, status }) {
             localStorage.setItem('token', data.token);
-            window.location.href = '/';
+            window.location.href = '/login/';
         }).catch(function (err) {
             displayErrorToast('An account using same email or username is already created');
         })
@@ -104,13 +104,58 @@ function login() {
     }
     )
 }
-function addTask() {
-    /**
-     * @todo Complete this function.
-     * @todo 1. Send the request to add the task to the backend server.
-     * @todo 2. Add the task in the dom.
-     */
+const add_btn = document.getElementById('add')
+if (add_btn) {
+    add_btn.addEventListener('click', addTask)
 }
+
+
+function addTask() {
+    const task = document.getElementById('inputTask').value.trim();
+    if (task === '') {
+        displayErrorToast("Please enter a task");
+        return;
+    }
+    displayInfoToast("Please wait...");
+
+    const dataForApiRequest = {
+        title: task
+
+    }
+
+    axios({
+        url: API_BASE_URL + 'todo/create/',
+        method: 'post',
+        data: dataForApiRequest,
+        headers: {
+            'Authorization': 'Token ' + localStorage.getItem('token')
+        }
+    }).then(function ({ data, status }) {
+        console.log(data);
+        displaySuccessToast("Task added successfully");
+        // location.reload();
+    }
+    ).catch(function (err) {
+        console.log(err);
+        displayErrorToast('Error adding task');
+    }
+    )
+}
+
+
+/**
+ * @todo Complete this function.
+ * @todo 1. Send the request to add the task to the backend server.
+ * @todo 2. Add the task in the dom.
+ */
+
+const edit_btn = document.getElementById('edit-btn');
+if (edit_btn) {
+    edit_btn.addEventListener('click', () => {
+        editTask(1);
+    })
+}
+
 
 function editTask(id) {
     document.getElementById('task-' + id).classList.add('hideme');
