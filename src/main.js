@@ -1,4 +1,45 @@
-import axios from 'axios';
+const registerButton = document.getElementById("register-button");
+const loginButton = document.getElementById("login-button");
+const logOutButton = document.getElementById("logout-button");
+const addTaskButton = document.getElementById("add-task-button");
+
+
+// window.onload = () => {
+//     const logOutButton = document.querySelector("#logout");
+//     const registerButton = document.querySelector("#register-button");
+//     const loginButton = document.querySelector("#loginButton");
+
+//     if (registerButton) {
+//         registerButton.addEventListener("click", register);
+//     }
+//     if (logOutButton) {
+//         logOutButton.addEventListener("click", logout);
+//     }
+//     if (loginButton) {
+//         loginButton.addEventListener("click", login);
+//     }
+
+//     const add = document.querySelector("#add");
+//     if (add) {
+//         add.addEventListener("click", addTask)
+//     }
+// }
+
+
+if (registerButton) {
+    registerButton.addEventListener("click", register);
+}
+if (logOutButton) {
+    logOutButton.addEventListener("click", logout);
+}
+if (loginButton) {
+    loginButton.addEventListener("click", login);
+}
+if (add) {
+    add.addEventListener("click", addTask)
+}
+
+
 function displaySuccessToast(message) {
     iziToast.success({
         title: 'Success',
