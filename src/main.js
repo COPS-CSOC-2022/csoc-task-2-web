@@ -226,6 +226,38 @@ function updateTask(id) {
      * @todo 1. Send the request to update the task to the backend server.
      * @todo 2. Update the task in the dom.
      */
+
+    const updated_task = document.getElementById(`input-button-` + id).value ;
+    if (!updated_task.trim()) {
+        displayErrorToast('Task cannot be Empty');
+        return;
+    }
+
+    const dataForApiRequest = {
+        title: updated_task
+    }
+
+    axios({
+
+        headers: {
+            Authorization: 'Token ' + localStorage.getItem('token')
+        },
+        url: API_BASE_URL + 'todo/' + id + '/',
+        method: 'patch',
+        data: dataForApiRequest,
+    }).then(function ({ data, status }) {
+        const newTask = document.getElementById('task-' + id)
+        newTask.innerHTML = updated_task
+        displaySuccessToast('Task Updated Successfully');
+    }).catch(function (err) {
+        displayErrorToast('Failed to update Task');
+    })
+
+    document.getElementById('input-button-'+id).value=''
+    document.getElementById('task-' + id).classList.remove('hideme');
+    document.getElementById('task-actions-' + id).classList.remove('hideme');
+    document.getElementById('input-button-' + id).classList.add('hideme');
+    document.getElementById('done-button-' + id).classList.add('hideme');
 }
 
 
