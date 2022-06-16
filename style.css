@@ -1,37 +1,235 @@
+center
+{
+    background: linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12);
+    margin: 0;
+    height: fit-content;
+    min-height: 100vh;
+    padding-bottom: 15px;
+}
 .todo-profile-name {
     padding: 5px;
 }
 
-.todo-add-task {
-    margin-top:90px;
-    max-width:400px;
-}
 
 .todo-available-tasks {
-    margin-bottom:30px;
-    max-width:400px;
+    width: 50%;
+    padding: 30px;
+    background: #2c384a;
+    border-radius: 20px;
 }
 
 .todo-available-tasks-text {
-    margin-left:30%;
-    padding-bottom:5px;
-    padding-top:5px;
-    margin-bottom:20px;
-    max-width:170px;
-    font-size:15px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px;
+    margin-bottom: 20px;
+    width: fit-content;
+    font-size: x-large;
 }
 
 .todo-edit-task-input {
-    border-top-right-radius:0px;
-    border-bottom-right-radius:0px;
-    max-width:300px;
+
+    border-radius: 10px 0px 0px 10px;
 }
 
-.todo-update-task {
-    border-top-left-radius:0px;
-    border-bottom-left-radius:0px;
-}
 
 .todo-task {
-    max-width:260px;
+    max-width: 260px;
+}
+
+.selected {
+    background-color: blue;
+    color: white;
+}
+
+.background {
+    background-color: white;
+}
+
+.search_box {
+    display: flex;
+    /* background-color: aqua; */
+    padding: 25px;
+    max-width: 80%;
+}
+
+.todo-add-task {
+    display: flex;
+    /* background-color: aqua; */
+    padding: 25px;
+    max-width: 50%;
+}
+.update-button
+{
+    border-radius: 0px 15px 15px 0px;
+    background-color: black;
+}
+
+.upd-btn-text
+{
+    color: white;
+    font-weight: 700;
+    font-size: large;
+}
+
+.upd-btn-text:hover
+{
+    color: white;
+}
+
+.logout
+{
+    background-color: transparent;
+}
+
+#logout-button
+{
+    background-color: red;
+    color: white;
+    font-size: x-large;
+    font-weight: 700;
+}
+
+
+
+.search-button {
+    font-size: x-large;
+    background: linear-gradient(90deg,
+            rgba(93, 12, 255, 1) 0%,
+            rgba(155, 0, 250, 1) 100%);
+    border-radius: 0px 15px 15px 0px;
+    color: white;
+}
+
+.add-button {
+    font-size: larger;
+    background: linear-gradient(90deg,
+            rgba(93, 12, 255, 1) 0%,
+            rgba(155, 0, 250, 1) 100%);
+    border-radius: 0px 15px 15px 0px;
+    color: white;
+    font-weight: bold;
+}
+
+
+.add-button:hover {
+   background: white ;
+    color: green;
+    border-color: green;
+}
+
+.search-input {
+    font-size: x-large;
+    border: 1px solid rgba(155, 0, 250, 1) ;
+    border-radius: 15px 0px 0px 15px;
+}
+
+
+
+
+.add-input {
+    font-size: large;
+    border: 1px solid rgba(155, 0, 250, 1) ;
+    border-radius: 15px 0px 0px 15px;
+}
+
+.search-input:focus {
+    border-radius: 15px 0px 0px 15px;
+}
+
+center li {
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 15px;
+    color: white;
+    font-size: x-large;
+    font-weight: 700;
+}
+
+.color-li:nth-child(4n + 1) {
+    background: linear-gradient(90deg,
+            rgba(93, 12, 255, 1) 0%,
+            rgba(155, 0, 250, 1) 100%);
+}
+
+.color-li:nth-child(4n + 2) {
+    background: linear-gradient(90deg,
+            rgba(255, 12, 241, 1) 0%,
+            rgba(250, 0, 135, 1) 100%);
+}
+
+
+.color-li:nth-child(4n + 3) {
+    background: linear-gradient(90deg,
+            rgba(20, 159, 255, 1) 0%,
+            rgba(17, 122, 255, 1) 100%);
+}
+
+.color-li:nth-child(4n){
+    background: linear-gradient(90deg,
+            rgb(172, 8, 163) 0%,
+            rgb(95, 1, 51) 100%);
+}
+
+.btn-danger:hover{
+    transform: scale(1.2);
+    transition: all 2s ease-in-out;
+    background-color: rgb(244, 58, 58);
+}
+.btn-warning:hover{
+    transform: scale(1.2);
+    transition: all 2s ease-in-out;
+    background: yellow;
+}
+
+.selected {
+    background: linear-gradient(to right,
+            #f37335,
+            #fdc830);
+    color: white;
+    transition: all 2s ease-in-out;
+    transform: scale(1.1);
+}
+
+@media only screen and (max-width : 900px)
+{
+
+    .todo-add-task {
+        max-width: 75%;
+    }
+    .todo-available-tasks {
+        width: 75%;
+    }
+    center li {
+        font-size: x-large;
+        font-weight: 500;
+    }
+    
+}
+
+@media only screen and (max-width : 500px)
+{
+
+    .todo-add-task {
+        max-width: 90%;
+    }
+    .todo-available-tasks {
+        width: 90%;
+        padding: 15px;
+    }
+    center li {
+        font-size: large;
+        font-weight: 500;
+    }
+    .search-input {
+        font-size: large;
+    }
+    .search-button {
+        font-size: large;
+    }
+    .todo-available-tasks-text {
+        font-size: large;
+    }
+
 }
