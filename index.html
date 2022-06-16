@@ -78,7 +78,7 @@
                   >Loading ...</span
                 ></a
               >
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <div class="dropdown-menu logout" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="#" id="logout-button">Logout</a>
               </div>
             </li>
@@ -87,20 +87,33 @@
       </div>
     </nav>
     <center>
-      <div class="input-group mb-3 todo-add-task">
+      <div class="search_box">
         <input
           type="text"
-          class="form-control"
+          class="form-control search-input"
+          placeholder="Search Task"
+          id="search-input"
+        />
+        <div class="input-group-append">
+          <button type="button" class="btn search-button" id="search-button">
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+      </div>
+      <div class="todo-add-task">
+        <input
+          type="text"
+          class="form-control add-input"
           placeholder="Enter Task"
           id="task-to-add"
         />
         <div class="input-group-append">
           <button
             type="button"
-            class="btn btn-outline-success"
+            class="btn add-button"
             id="add-task-button"
           >
-            Add Task
+            Add 
           </button>
         </div>
       </div>
