@@ -35,3 +35,7 @@
 .todo-task {
     max-width:260px;
 }
+
+.d-flex {
+    margin-bottom: 0;
+}
