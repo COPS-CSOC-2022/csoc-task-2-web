@@ -45,32 +45,35 @@
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img src="#" class="rounded-circle" id="avatar-image"><span class="todo-profile-name" id="profile-name">Loading ...</span></a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#" onclick="logout()">Logout</a>
+                            <a class="dropdown-item" href="login/index.html" id="logout">Logout</a>
                         </div>
                     </li>
                 </ul>
             </form>
         </div>
     </nav>
-    <center>
+    <div class="input-group mb-3 todo-add-task" style="float: right;margin-right:3vw;margin-top: 2.5vh;">
+        <input type="text" class="form-control" placeholder="Search Tasks" id="searchTask">
+    </div>
+    <center >
         <div class="input-group mb-3 todo-add-task">
-            <input type="text" class="form-control" placeholder="Enter Task">
+            <input type="text" class="form-control" placeholder="Enter Task" id="newTask">
             <div class="input-group-append">
-                <button type="button" class="btn btn-outline-success" onclick="addTask()">Add Task</button>
+                <button type="button" class="btn btn-outline-success" id="addTaskBtn" onclick="addTask()">Add Task</button>
             </div>
         </div>
-        <ul class="list-group todo-available-tasks">
+        <ul class="list-group todo-available-tasks" id="tasks">
             <span class="badge badge-primary badge-pill todo-available-tasks-text">
                 Available Tasks
             </span>
 
-
-            <li class="list-group-item d-flex justify-content-between align-items-center">
+<!-- 
+            <li class="list-group-item d-flex justify-content-between align-items-center itemList">
                     <input id="input-button-1" type="text" class="form-control todo-edit-task-input hideme" placeholder="Edit The Task">
                     <div id="done-button-1"  class="input-group-append hideme">
                         <button class="btn btn-outline-secondary todo-update-task" type="button" onclick="updateTask(1)">Done</button>
                     </div>
-                    <div id="task-1" class="todo-task">
+                    <div id="task-1" class="todo-task todoTask">
                         Sample Task 1
                     </div>
 
@@ -88,13 +91,13 @@
             </li>
 
 
-            <li class="list-group-item d-flex justify-content-between align-items-center">
+            <li class="list-group-item d-flex justify-content-between align-items-center itemList">
                     <input id="input-button-2" type="text" class="form-control todo-edit-task-input hideme" placeholder="Edit The Task">
                     <div id="done-button-2" class="input-group-append hideme">
                         <button class="btn btn-outline-secondary todo-update-task" type="button" onclick="updateTask(2)">Done</button>
                     </div>
 
-                    <div id="task-2" class="todo-task">
+                    <div id="task-2" class="todo-task todoTask">
                         Sample Task 2
                     </div>
                     <span id="task-actions-2">
@@ -110,7 +113,7 @@
                     </span>
             </li>
 
-
+ -->
         </ul>
     </center>
     <script type="module" src="./src/init.js"></script>
