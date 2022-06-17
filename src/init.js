@@ -1,6 +1,8 @@
 import axios from 'axios';
 const API_BASE_URL = 'https://todo-app-csoc.herokuapp.com/';
 
+let searchbox=document.querySelector("#search-box");
+
 function getTasks() {
     /***
      * @todo Fetch the tasks created by the user and display them in the dom.
@@ -44,6 +46,7 @@ function getTasks() {
             </li>
         `
         }
+        searchbox.addEventListener('keyup',search)
     })
 }
 
@@ -57,6 +60,28 @@ axios({
   document.getElementById('avatar-image').src = 'https://ui-avatars.com/api/?name=' + data.name + '&background=fff&size=33&color=007bff';
   document.getElementById('profile-name').innerHTML = data.name;
   getTasks();
+  
 })
 
 window.getTasks=getTasks
+
+
+function search(){
+    let search=document.querySelectorAll(".list-group-item")
+    let input=searchbox.value
+    if(input)
+    {
+        Array.from(search).forEach((e)=>{
+            let test=e.querySelector(".todo-task").textContent.trim()
+            if(test.search(input) == -1)
+            e.classList.add("hideme")
+            else
+            e.classList.remove("hideme")
+        })
+    }
+    else{
+        Array.from(search).forEach((e)=>{
+            e.classList.remove("hideme")
+        })
+    }
+}
