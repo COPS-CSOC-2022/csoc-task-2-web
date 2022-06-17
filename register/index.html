@@ -12,6 +12,7 @@
   <meta charset=utf-8>
   <meta http-equiv=X-UA-Compatible content="IE=edge">
   <meta name=viewport content="width=device-width,initial-scale=1">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js" integrity="sha512-xIPqqrfvUAc/Cspuj7Bq0UtHNo/5qkdyngx6Vwt+tmbvTLDszzXM0G6c91LXmGrRx8KEPulT+AfOOez+TeVylg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script type="module" src="../src/no_auth_required.js"></script>
   <script type="module" src="../src/main.js"></script>
 </head>
@@ -45,7 +46,7 @@
     <div class="form-row">
       <div class="form-group col-md-6">
         <label>First Name</label>
-        <input type="text" class="form-control" id="inputFirstName">
+        <input type="text" class="form-control" id="inputFirstName" autocomplete="on">
       </div>
       <div class="form-group col-md-6">
         <label>Last Name</label>
@@ -64,7 +65,7 @@
       <label for="inputAddress2">Password</label>
       <input type="Password" class="form-control" id="inputPassword">
     </div>
-    <button class="btn btn-outline-success my-2 my-sm-0" onclick="register()" type="submit">Register</button>
+    <button class="btn btn-outline-success my-2 my-sm-0" id="register-button" >Register</button>
   </div>
 </body>
 
