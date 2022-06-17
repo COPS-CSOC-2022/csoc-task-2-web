@@ -1,4 +1,26 @@
 import axios from 'axios';
+import getTasks from "./init.js";
+
+setClickListeners();
+
+function setClickListeners() {
+    const btnArrays = [];
+    const btnListenerFuncs = [login, register, addTask];
+
+    btnArrays.push(document.querySelector("#login-btn"));
+    btnArrays.push(document.querySelector("#register-btn"));
+    btnArrays.push(document.querySelector("#add-task-btn"));
+
+    btnArrays.forEach((element, index) => {
+        if (element !== null) {
+            console.log(element.id);
+            element.addEventListener("click", () => {
+                btnListenerFuncs[index]();            
+            });
+        }
+    }); 
+}
+
 function displaySuccessToast(message) {
     iziToast.success({
         title: 'Success',
@@ -39,7 +61,19 @@ function registerFieldsAreValid(firstName, lastName, email, username, password) 
     return true;
 }
 
+// function to validate login fields, uses name similar to regsiterFieldsAreValid to maintain project consistency
+function loginFieldsAreValid(username, password) {
+    if (username === '' || password === '') {
+        displayErrorToast("Please fill all the fields correctly.");
+        return false;
+    }
+
+    return true;
+}
+
 function register() {
+    alert("register's still not bitten the dust")
+
     const firstName = document.getElementById('inputFirstName').value.trim();
     const lastName = document.getElementById('inputLastName').value.trim();
     const email = document.getElementById('inputEmail').value.trim();
@@ -75,6 +109,39 @@ function login() {
      * @todo 1. Write code for form validation.
      * @todo 2. Fetch the auth token from backend, login and direct user to home page.
      */
+
+    // testing if the event listeners work
+    // alert("login event listener didn't get l + ratio'd");
+
+    const username = document.getElementById('inputUsername').value.trim();
+    const password = document.getElementById('inputPassword').value;
+
+    console.log(username, password);
+
+    if (loginFieldsAreValid(username, password)) {
+        displayInfoToast("Please wait...");
+
+        const loginReqData = {
+            username: username,
+            password: password
+        };
+
+        console.log(axios);
+
+        axios({
+            url: API_BASE_URL + "auth/login/",
+            method: "post",
+            data: loginReqData
+        }).then(({data, status}) => {
+            console.log(status);
+            console.log("the login promise was done successfully :)");
+            localStorage.setItem("token", data.token);
+            window.location.href = '/';
+        }).catch(err => {
+            console.log("well shit >:(");
+            displayErrorToast('An account using same email or username is already created');
+        });
+    }
 }
 
 function addTask() {
@@ -83,6 +150,29 @@ function addTask() {
      * @todo 1. Send the request to add the task to the backend server.
      * @todo 2. Add the task in the dom.
      */
+
+    console.log("addTask is trying his best, don't bully it :(");
+
+    const newTask = document.querySelector("#add-task-input").value;
+    console.log(newTask);
+
+    const createTaskData = {
+        title: newTask
+    };
+
+    axios({
+        headers: {
+            Authorization: "Token " + localStorage.getItem("token"),
+        },
+        url: API_BASE_URL + "todo/create/",
+        method: 'post',
+        data: createTaskData
+    }).then((data, status) => {
+        console.log(data, status);
+        getTasks();
+    }).catch(err => {
+        
+    })
 }
 
 function editTask(id) {
