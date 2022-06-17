@@ -1,5 +1,5 @@
 import axios from 'axios';
-import getTasks from "./init.js";
+import exports from "./init.js";
 
 setClickListeners();
 
@@ -169,7 +169,7 @@ function addTask() {
         data: createTaskData
     }).then((data, status) => {
         console.log(data, status);
-        getTasks();
+        exports.getTasks();
     }).catch(err => {
         
     })

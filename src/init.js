@@ -4,9 +4,12 @@ const API_BASE_URL = 'https://todo-app-csoc.herokuapp.com/';
 function createTaskLi(data) {
     console.log("createTaskLi is running");
 
+    // clearing the previous form
+    document.querySelector("#final-list").innerHTML = "";
+
     data.data.forEach((element, index) => {
 
-        document.querySelector("center").innerHTML += 
+        document.querySelector("#final-list").innerHTML += 
         `<li class="list-group-item d-flex justify-content-between align-items-center">
             <input id="input-button-${index}" type="text" class="form-control todo-edit-task-input hideme" placeholder="Edit The Task">
             <div id="done-button-${index}"  class="input-group-append hideme">
@@ -36,6 +39,9 @@ function getTasks() {
     /***
      * @todo Fetch the tasks created by the user and display them in the dom.
      */
+
+    console.log("getTasks hasn't yee'd his last haw yet");
+
     axios({
         headers: {
             Authorization: "Token " + localStorage.getItem("token"),
@@ -61,4 +67,6 @@ axios({
   getTasks();
 });
 
-export default { getTasks };
+const exports = { getTasks: getTasks };
+
+export default exports;
