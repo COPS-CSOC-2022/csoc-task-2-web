@@ -1,119 +1,104 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <title>Tasks - Todo</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css"
-        rel="stylesheet">
-    <link rel="stylesheet" href="/style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
-    <meta charset=utf-8>
-    <meta http-equiv=X-UA-Compatible content="IE=edge">
-    <meta name=viewport content="width=device-width,initial-scale=1">
-    <script type="module" src="./src/auth_required.js"></script>
-    <script type="module" src="./src/main.js"></script>
-    <style>
-        .hideme {
-            display: none !important;
-        }
-    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="to do list, online to do list, to do list app" />
+    <meta name="description" content="Responsive, online To Do List App that can save the tasks into local storage.
+    Whenever you enter from a device, your information won't be lost unless clear local storage by clearing the history or doing something else." />
+    <meta name="author" content="Okan Uregen" />
+    <title>To Do List</title>
+    <script src="https://kit.fontawesome.com/9c206210e0.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
+    <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="#">Todo</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/">Tasks
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item dropdown active">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img src="#" class="rounded-circle" id="avatar-image"><span class="todo-profile-name" id="profile-name">Loading ...</span></a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#" onclick="logout()">Logout</a>
-                        </div>
-                    </li>
-                </ul>
-            </form>
-        </div>
-    </nav>
-    <center>
-        <div class="input-group mb-3 todo-add-task">
-            <input type="text" class="form-control" placeholder="Enter Task">
-            <div class="input-group-append">
-                <button type="button" class="btn btn-outline-success" onclick="addTask()">Add Task</button>
+    <div class="mx-auto container mt-5 row">
+        <div class="task-add-box my-3 col-12 col-lg-4 order-lg-3">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Add New Task</h5>
+                </div>
+                <div class="card-body px-4">
+                    <form id="addingForm" class="form-group row" action="">
+                        <input class="form-control col-10 col-md-11 col-lg-10" type="text" placeholder="Enter a task" />
+                        <button type="submit" class="btn btn-outline-success col-2 col-md-1 col-lg-2">
+                <i class="fas fa-plus"></i>
+              </button>
+                    </form>
+                </div>
             </div>
         </div>
-        <ul class="list-group todo-available-tasks">
-            <span class="badge badge-primary badge-pill todo-available-tasks-text">
-                Available Tasks
-            </span>
 
+        <div class="space col-0 col-lg-1 order-lg-2"></div>
 
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <input id="input-button-1" type="text" class="form-control todo-edit-task-input hideme" placeholder="Edit The Task">
-                    <div id="done-button-1"  class="input-group-append hideme">
-                        <button class="btn btn-outline-secondary todo-update-task" type="button" onclick="updateTask(1)">Done</button>
-                    </div>
-                    <div id="task-1" class="todo-task">
-                        Sample Task 1
-                    </div>
+        <div class="list-box my-3 col-12 col-lg-7 order-lg-1">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="float-left">To Do List</h5>
+                    <a href="" class="float-right btn btn-outline-danger rounded" id="delAll">
+              Delete All
+            </a>
+                </div>
+                <div class="card-body p-0">
+                    <ul id="mainList" class="list-group">
+                        <div id="accordion">
+                            <li id="upperLi" class="list-group-item d-none">
+                                <a href="#collapse0" class="card-link list-item line-throught" data-toggle="collapse">
+                                    <!--Text Here-->
+                                </a>
 
-                    <span id="task-actions-1">
-                        <button style="margin-right:5px;" type="button" onclick="editTask(1)"
-                            class="btn btn-outline-warning">
-                            <img src="https://res.cloudinary.com/nishantwrp/image/upload/v1587486663/CSOC/edit.png"
-                                width="18px" height="20px">
-                        </button>
-                        <button type="button" class="btn btn-outline-danger" onclick="deleteTask(1)">
-                            <img src="https://res.cloudinary.com/nishantwrp/image/upload/v1587486661/CSOC/delete.svg"
-                                width="18px" height="22px">
-                        </button>
-                    </span>
-            </li>
+                                <a href="#" class="delete-item text-danger float-right fas fa-times mt-1 mx-1"></a>
+                                <a href="#" class="check text-success float-right fas fa-check mt-1 mx-4"></a>
+                                <div id="collapse0" class="collapse" data-parent="#accordion">
+                                    <div class="under-list-item">
+                                        <ul class="list-group">
+                                            <li id="innerLi" class="list-group-item">
+                                                <span class="m-0 p-0"><!--Text Here--></span>
+                                                <a href="#" class="d-none delete-inner-item text-danger float-right fas fa-times mt-1 mx-1"></a>
+                                                <a href="#" class="d-none inner-check text-success float-right fas fa-check mt-1 mx-4"></a>
+                                            </li>
+                                            <div class="mt-2 under-list-input px-4">
+                                                <form action="" class="form-group row">
+                                                    <input class="form-control col-10 col-md-11" type="text" placeholder="Enter Subtask" />
+                                                    <button type="submit" class="btn-add-inner-task btn btn-primary col-2 col-md-1 p-0">
+                              <i class="i-add-inner-task fas fa-plus"></i>
+                            </button>
+                                                </form>
+                                            </div>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <footer class="bg-dark text-light text-center p-3">
+        <a href="https://www.github.com/okanuregen" class="text-light">by Lalit Singh</a
+      >
+    </footer>
 
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <input id="input-button-2" type="text" class="form-control todo-edit-task-input hideme" placeholder="Edit The Task">
-                    <div id="done-button-2" class="input-group-append hideme">
-                        <button class="btn btn-outline-secondary todo-update-task" type="button" onclick="updateTask(2)">Done</button>
-                    </div>
-
-                    <div id="task-2" class="todo-task">
-                        Sample Task 2
-                    </div>
-                    <span id="task-actions-2">
-                        <button style="margin-right:5px;" type="button" onclick="editTask(2)"
-                            class="btn btn-outline-warning">
-                            <img src="https://res.cloudinary.com/nishantwrp/image/upload/v1587486663/CSOC/edit.png"
-                                width="18px" height="20px">
-                        </button>
-                        <button type="button" class="btn btn-outline-danger" onclick="deleteTask(2)">
-                            <img src="https://res.cloudinary.com/nishantwrp/image/upload/v1587486661/CSOC/delete.svg"
-                                width="18px" height="22px">
-                        </button>
-                    </span>
-            </li>
-
-
-        </ul>
-    </center>
-    <script type="module" src="./src/init.js"></script>
-</body>
-
+    <script src="script2.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>
