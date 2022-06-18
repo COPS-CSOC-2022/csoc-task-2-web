@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/COPS-CSOC-2022/csoc-task-2-web#readme",
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "vite": "^2.3.7"
   }
 }
