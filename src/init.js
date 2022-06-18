@@ -14,10 +14,10 @@ function getTasks() {
     },
     url: API_BASE_URL + "todo/",
   })
-  .then(function ({ data, status }) {
-    const list = document.getElementById('availableTasks');
-    data.forEach(element => {
-      list.innerHTML+=`<li class="list-group-item d-flex justify-content-between align-items-center" id="taskItem-${element.id}">
+    .then(function ({ data, status }) {
+      const list = document.getElementById("availableTasks");
+      data.forEach((element) => {
+        list.innerHTML += `<li class="list-group-item d-flex justify-content-between align-items-center" id="taskItem-${element.id}">
       <input id="input-button-${element.id}" type="text" class="form-control todo-edit-task-input hideme"
           placeholder="Edit The Task">
       <div id="done-button-${element.id}" class="input-group-append hideme">
@@ -39,12 +39,12 @@ function getTasks() {
                   width="18px" height="22px">
           </button>
       </span>
-  </li>`
+  </li>`;
+      });
+    })
+    .catch(function (err) {
+      displayErrorToast("Oops! Something went wrong!");
     });
-  })
-  .catch(function (err) {
-    displayErrorToast("Oops! Something went wrong!");
-  });
 }
 window.getTasks = getTasks;
 
