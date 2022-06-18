@@ -1,34 +1,6 @@
 import axios from 'axios';
-// import { updateTask, deleteTask, editTask } from './main';
-
-function displaySuccessToast(message) {
-    iziToast.success({
-        title: 'Success',
-        message: message
-    });
-}
-
-function displayErrorToast(message) {
-    iziToast.error({
-        title: 'Error',
-        message: message
-    });
-}
-
-function displayInfoToast(message) {
-    iziToast.info({
-        title: 'Info',
-        message: message
-    });
-}
-
 const API_BASE_URL = 'https://todo-app-csoc.herokuapp.com/';
-
 function getTasks() {
-    /***
-     * @todo Fetch the tasks created by the user and display them in the dom.
-     */
-    // get data from server using axios and API_BASE_URL with the token in localStorage
     axios({
         url: API_BASE_URL + 'todo/',
         method: 'get',
@@ -45,50 +17,49 @@ function getTasks() {
             tasks_container.classList.add('d-flex');
             tasks_container.classList.add('justify-content-between');
             tasks_container.classList.add('align-items-center');
-            tasks_container.id = 'task-' + d.id;
+            tasks_container.id = d.id;
+            // add a input field to edit the task
+            const input_field = document.createElement('input');
+            input_field.classList.add('form-control');
+            input_field.classList.add('todo-edit-task-input');
+            input_field.classList.add('hideme');
+            input_field.id = 'input-button-' + d.id;
+            input_field.placeholder = 'Edit The Task';
+            input_field.type = 'text';
+            // create a div to store button
+            const button_container = document.createElement('div');
+            button_container.classList.add('input-group-append');
+            button_container.classList.add('hideme');
+            button_container.id = 'done-button-' + d.id;
+            // create a div and done button inside it to save edited task
+            const done_button = document.createElement('button');
+            done_button.classList.add('btn');
+            done_button.classList.add('btn-success');
+            done_button.classList.add('todo-update-task');
+            done_button.type = 'button';
+            done_button.setAttribute('onclick', 'updateTask(' + d.id + ')');
+            done_button.innerHTML = 'Done';
+            button_container.append(done_button);
             const task_name = document.createElement('div');
             task_name.classList.add('todo-task');
             task_name.innerHTML = d.title;
+            task_name.id = 'task-' + d.id;
             const span = document.createElement('span');
             const btn_1 = document.createElement('button');
             btn_1.classList.add('btn');
             btn_1.classList.add('btn-outline-warning');
             btn_1.style.marginRight = '10px';
+            btn_1.addEventListener('click', () => {
+                editTask(d.id);
+            }
+            );
             const btn_2 = document.createElement('button');
             btn_2.classList.add('btn');
             btn_2.classList.add('btn-outline-danger');
-
-
-            btn_2.addEventListener('click', function () {
-
-                displayInfoToast('Please wait...');
-
-
-                axios({
-                    url: API_BASE_URL + 'todo/' + d.id + '/',
-                    method: 'delete',
-                    headers: {
-                        Authorization: 'Token ' + localStorage.getItem('token')
-                    }
-                }).then(function ({ dat, stat }) {
-
-                    displaySuccessToast('Task deleted successfully');
-                    console.log(dat);
-                    // remove the task from the dom
-                    const task_to_delete = document.getElementById('task-' + d.id);
-                    task_to_delete.remove();
-                }).catch(function (error) {
-                    // display error toast
-                    displayErrorToast('Error deleting task');
-                    console.log(error);
-                }
-                );
-            }
-            );
-
-
+            btn_2.addEventListener('click', () => { deleteTask(d.id) });
             span.append(btn_1, btn_2);
-            tasks_container.append(task_name, span);
+            span.id = 'task-actions-' + d.id;
+            tasks_container.append(input_field, button_container, task_name, span);
             list_group.append(tasks_container);
             const img_1 = document.createElement('img');
             img_1.src = 'https://res.cloudinary.com/nishantwrp/image/upload/v1587486663/CSOC/edit.png';
@@ -101,11 +72,8 @@ function getTasks() {
             img_2.height = '22';
             btn_2.appendChild(img_2);
         });
-
-
     });
 }
-
 axios({
     headers: {
         Authorization: 'Token ' + localStorage.getItem('token'),
