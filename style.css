@@ -2,10 +2,11 @@
     padding: 5px;
 }
 
-.todo-add-task {
+.todo-add-task, .todo-search-task {
     margin-top:90px;
     max-width:400px;
 }
+
 
 .todo-available-tasks {
     margin-bottom:30px;
