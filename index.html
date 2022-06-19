@@ -45,7 +45,7 @@
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img src="#" class="rounded-circle" id="avatar-image"><span class="todo-profile-name" id="profile-name">Loading ...</span></a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#" onclick="logout()">Logout</a>
+                            <a class="dropdown-item" id="logoutButton" href="#">Logout</a>
                         </div>
                     </li>
                 </ul>
@@ -54,15 +54,27 @@
     </nav>
     <center>
         <div class="input-group mb-3 todo-add-task">
-            <input type="text" class="form-control" placeholder="Enter Task">
+            <input type="text" class="form-control" placeholder="Enter Task" id="inputTask">
             <div class="input-group-append">
-                <button type="button" class="btn btn-outline-success" onclick="addTask()">Add Task</button>
+                <button type="button" class="btn btn-outline-success" id="addTaskButton">Add Task</button>
             </div>
         </div>
+        
+        <div class="input-group mb-3 todo-search-task">
+            <input type="text" class="form-control" placeholder="Seach for a Task" id="searchTask">
+            <div class="input-group-append">
+                <button type="button" class="btn btn-outline-warning" id="searchTaskButton">Search</button>
+            </div>
+        </div>
+        
         <ul class="list-group todo-available-tasks">
             <span class="badge badge-primary badge-pill todo-available-tasks-text">
                 Available Tasks
             </span>
+            
+            <div id="taskList">
+                <!-- Commenting the sample tasks added. -->
+                <!-- 
 
 
             <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -109,6 +121,7 @@
                         </button>
                     </span>
             </li>
+        -->
 
 
         </ul>
