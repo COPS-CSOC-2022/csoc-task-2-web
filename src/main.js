@@ -7,35 +7,36 @@ window.editTask = editTask;
 
 const taskList = document.getElementById("taskList");
 
-// Making all the buttons functional
-const logoutButton = document.getElementById("logoutButton");
-if (logoutButton) logoutButton.onclick = logout;
+//functioned allbuttons
+
 const loginButton = document.getElementById("loginButton");
 if (loginButton) loginButton.onclick = login;
-const registerButton = document.getElementById("registerButton");
-if (registerButton) registerButton.onclick = register;
 const addTaskButton = document.getElementById("addTaskButton");
 if (addTaskButton) addTaskButton.onclick = addTask;
 const searchTaskButton = document.getElementById("searchTaskButton");
 if (searchTaskButton) searchTaskButton.onclick = searchTask;
+const logoutButton = document.getElementById("logoutButton");
+if (logoutButton) logoutButton.onclick = logout;
+const registerButton = document.getElementById("registerButton");
+if (registerButton) registerButton.onclick = register;
 
 
 // Displaying toasts
-function displaySuccessToast(message) {
+function displaySuccessmsgToast(message) {
     iziToast.success({
-        title: 'Success',
+        title: 'Successful!!',
         message: message
     });
 }
 
 function displayErrorToast(message) {
     iziToast.error({
-        title: 'Error',
+        title: 'Error!!',
         message: message
     });
 }
 
-function displayInfoToast(message) {
+function displayqueryToast(message) {
     iziToast.info({
         title: 'Info',
         message: message
@@ -69,7 +70,7 @@ function register() {
     const username = document.getElementById('inputUsername').value.trim();
 
     if (registerFieldsAreValid(firstName, lastName, email, username, password)) {
-        displayInfoToast("Please wait...");
+        displayqueryToast("Please wait...");
 
         const dataForApiRequest = {
             name: firstName + " " + lastName,
@@ -100,7 +101,7 @@ function login() {
         return;
     }
 
-    displayInfoToast("Just relax we'll get back to you");
+    displayqueryToast("Just relax we'll get back to you");
 
     const dataForApiRequest = {
         username: username,
@@ -112,7 +113,7 @@ function login() {
         method: 'POST',
         data: dataForApiRequest,
     }).then(function ({ data, status }) {
-        displaySuccessToast("Login Successful...");
+        displaySuccessmsgToast("Login Successful...");
         localStorage.setItem('token', data.token);
         window.location.href = '/';
     }).catch(function (err) {
@@ -132,7 +133,7 @@ function searchTask(){
         return;
     }
 
-    displayInfoToast("Just sit back and relax");
+    displayqueryToast("Just sit back and relax");
 
     const headersForApiRequest = {
         Authorization: 'Token ' + localStorage.getItem('token')
@@ -146,7 +147,7 @@ function searchTask(){
         console.log(data);
         for (var index = 0; index < data.length; index++) if (data[index].title == task){
             taskList.innerHTML = "";
-            displaySuccessToast("Task found...");
+            displaySuccessmsgToast("Task found...");
             displayTask(data[index].id, data[index].title);
             return;
         }
@@ -162,7 +163,7 @@ function addTask() {
         return;
     }
 
-    displayInfoToast("Please wait...");
+    displayqueryToast("Please wait...");
 
     const dataForApiRequest = {
         title: task
@@ -177,7 +178,7 @@ function addTask() {
         method: 'POST',
         data: dataForApiRequest,
     }).then(function ({ data, status }) {
-        displaySuccessToast("Todo added successfully...");
+        displaySuccessmsgToast("Todo added successfully...");
         document.getElementById('inputTask').value = '';
         getTasks();
     }).catch(function (err) {
@@ -194,7 +195,7 @@ export function editTask(id) {
 }
 
 export function deleteTask(id) {
-    displayInfoToast("Please wait...");
+    displayqueryToast("Please wait...");
 
     const headersForApiRequest = {
         Authorization: 'Token ' + localStorage.getItem('token')
@@ -205,7 +206,7 @@ export function deleteTask(id) {
         url: API_BASE_URL + 'todo/' + id + '/',
         method: 'DELETE',
     }).then(function ({ data, status }) {
-        displaySuccessToast("Todo deleted successfully...");
+        displaySuccessmsgToast("Todo deleted successfully...");
         getTasks();
     }).catch(function (err) {
         displayErrorToast("Unable to delete the given task. Please try again...");
@@ -236,7 +237,7 @@ export function updateTask(id) {
     }).then(function ({ data, status }) {
         taskItem.textContent=data.title;
         editTask(data.id);
-        displaySuccessToast("Todo updated successfully...");
+        displaySuccessmsgToast("Todo updated successfully...");
         getTasks();
     }).catch(function (err) {
         displayErrorToast("Unable to update the task. Please try again...");
