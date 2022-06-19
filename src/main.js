@@ -173,7 +173,7 @@ function searchTask(){
         url: API_BASE_URL + 'todo/',
         method: 'GET',
     }).then(function({data, status}) {
-
+        document.getElementById('searchTaskValue').value = '';
         for (var ind = 0; ind < data.length; ind++){
             if (data[ind].title == task){
                 taskList.innerHTML = "";
