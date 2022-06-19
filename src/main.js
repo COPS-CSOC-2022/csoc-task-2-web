@@ -11,10 +11,10 @@ const loginBtn = document.getElementById("loginBtn");
 if (loginBtn) loginBtn.onclick = login;
 const logoutBtn = document.getElementById("logoutBtn");
 if (logoutBtn) logoutBtn.onclick = logout;
-const addTaskButton = document.getElementById("addTaskButton");
-if (addTaskButton) addTaskButton.onclick = addTask;
-const searchTaskButton = document.getElementById("searchTaskButton");
-if (searchTaskButton) searchTaskButton.onclick = searchTask;
+const addTaskBtn = document.getElementById("addTaskBtn");
+if (addTaskBtn) addTaskBtn.onclick = addTask;
+const searchTaskBtn = document.getElementById("searchTaskBtn");
+if (searchTaskBtn) searchTaskBtn.onclick = searchTask;
 
 
 function displaySuccessToast(message) {
