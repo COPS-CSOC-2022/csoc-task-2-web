@@ -1,4 +1,7 @@
 import axios from 'axios';
+
+const userToken = localStorage.getItem('token');
+
 function displaySuccessToast(message) {
     iziToast.success({
         title: 'Success',
@@ -26,6 +29,10 @@ function logout() {
     localStorage.removeItem('token');
     window.location.href = '/login/';
 }
+if (document.getElementById('logout-btn') != null) {
+    document.getElementById('logout-btn').addEventListener('click', logout);
+}
+
 
 function registerFieldsAreValid(firstName, lastName, email, username, password) {
     if (firstName === '' || lastName === '' || email === '' || username === '' || password === '') {
@@ -38,6 +45,8 @@ function registerFieldsAreValid(firstName, lastName, email, username, password) 
     }
     return true;
 }
+
+
 
 function register() {
     const firstName = document.getElementById('inputFirstName').value.trim();
@@ -60,14 +69,20 @@ function register() {
             url: API_BASE_URL + 'auth/register/',
             method: 'post',
             data: dataForApiRequest,
-        }).then(function({data, status}) {
-          localStorage.setItem('token', data.token);
-          window.location.href = '/';
+        }).then(function({ data, status }) {
+            localStorage.setItem('token', data.token);
+            window.location.href = '/';
         }).catch(function(err) {
-          displayErrorToast('An account using same email or username is already created');
+            displayErrorToast('An account using same email or username is already created');
         })
     }
 }
+
+if (document.getElementById('register-btn') != null) {
+    const registerButton = document.getElementById('register-btn');
+    registerButton.addEventListener('click', register);
+}
+
 
 function login() {
     /***
@@ -75,7 +90,40 @@ function login() {
      * @todo 1. Write code for form validation.
      * @todo 2. Fetch the auth token from backend, login and direct user to home page.
      */
+
+
+
+
+
+
+    const username = document.getElementById('inputUsername').value.trim().toString();
+    const password = document.getElementById('inputPassword').value.toString();
+
+    const dataForApiRequest = {
+        "username": username,
+        "password": password
+    }
+
+    axios({
+        url: API_BASE_URL + 'auth/login/',
+        method: 'post',
+        data: dataForApiRequest,
+    }).then(function({ data, status }) {
+        localStorage.setItem('token', data.token);
+        window.location.href = '/';
+    }).catch(function(err) {
+        displayErrorToast('Wrong credentials ! Please try again.')
+        console.log(err);
+    })
 }
+
+
+
+if (document.getElementById('login-btn') != null) {
+    const loginButton = document.getElementById('login-btn');
+    loginButton.addEventListener('click', login);
+}
+
 
 function addTask() {
     /**
@@ -83,7 +131,44 @@ function addTask() {
      * @todo 1. Send the request to add the task to the backend server.
      * @todo 2. Add the task in the dom.
      */
+
+    let task = document.querySelector(".form-control").value;
+    if (task == "") {
+        displayErrorToast("Task title cannot be empty!");
+        return;
+    }
+    const dataForApiRequest = {
+        title: task
+    }
+    const header = {
+        'Authorization': `Token ${window.localStorage.getItem('token')}`,
+        'Content-Type': 'application/json'
+    }
+
+    axios({
+        url: API_BASE_URL + 'todo/create/',
+        method: 'post',
+        data: dataForApiRequest,
+        headers: header
+    }).then(function(data, status) {
+        getTasks();
+
+        document.querySelector('.form-control').value = ""
+        document.querySelector('.form-control').placeholder = "Create a new task."
+        displaySuccessToast("To-Do added successfully")
+    })
+
+
+
+
+
+
 }
+if (document.getElementById('add-task-btn') != null) {
+    const addTaskButton = document.getElementById('add-task-btn');
+    addTaskButton.addEventListener('click', addTask);
+}
+
 
 function editTask(id) {
     document.getElementById('task-' + id).classList.add('hideme');
@@ -98,6 +183,32 @@ function deleteTask(id) {
      * @todo 1. Send the request to delete the task to the backend server.
      * @todo 2. Remove the task from the dom.
      */
+    const dataForApiRequest = {
+        id: id
+    }
+    const header = {
+        'Authorization': `Token ${window.localStorage.getItem('token')}`,
+        'Content-Type': 'application/json'
+    }
+
+    axios({
+        url: API_BASE_URL + `todo/${id}/`,
+        method: 'delete',
+        data: dataForApiRequest,
+        headers: header
+    }).then(function(data, status) {
+
+        console.log(status)
+        getTasks();
+
+
+        displaySuccessToast("To-Do Removed Sucessfully");
+    })
+
+}
+if (document.getElementById("delete-task") != null) {
+    const deleteTaskBtn = document.getElementById("delete-task");
+    deleteTask.addEventListener("click", deleteTask());
 }
 
 function updateTask(id) {
@@ -106,4 +217,88 @@ function updateTask(id) {
      * @todo 1. Send the request to update the task to the backend server.
      * @todo 2. Update the task in the dom.
      */
+
+
+    let task = document.querySelector(`#input-button-${id}`).value;
+    if (task == "") {
+        displayErrorToast("Task Title cannot be left blank!")
+        return
+    }
+    const dataForApiRequest = {
+        title: task,
+        id: id
+    }
+    const header = {
+        'Authorization': `Token ${window.localStorage.getItem('token')}`,
+        'Content-Type': 'application/json'
+    }
+
+    axios({
+        url: API_BASE_URL + `todo/${id}/`,
+        method: 'patch',
+        data: dataForApiRequest,
+        headers: header
+    }).then(function(data, status) {
+
+        getTasks();
+
+        document.querySelector('.form-control').value = ""
+        document.querySelector('.form-control').placeholder = "Create a new task."
+        displaySuccessToast("To-Do Updated Successfully!");
+    })
+
+
+
+
+
+}
+
+window.displayErrorToast = displayErrorToast
+window.deleteTask = deleteTask;
+window.editTask = editTask;
+window.updateTask = updateTask;
+
+
+function searchFunction() {
+    let searchData = document.querySelector('.search-bar').value;
+
+    if (searchData == "") {
+        displayErrorToast("Search field cannot be empty!");
+        return;
+    }
+    const listItems = document.querySelectorAll('.list-group-item')
+
+    for (let i = 0; i < listItems.length; i++) {
+        document.getElementById("task-manager").children[i + 1].classList.remove('hideme');
+    }
+    let matchCount = 0;
+    let flag = false
+    for (let i = 0; i < listItems.length; i++) {
+        let st = listItems[i].innerHTML.indexOf("todo-task")
+        let en = listItems[i].innerHTML.indexOf("span")
+
+
+        let lihtml = listItems[i].innerHTML.toLowerCase().substring(st + 11, en - 21)
+
+
+
+
+        if (lihtml.includes(searchData.toLowerCase())) {
+
+            flag = true
+        } else {
+
+            document.getElementById("task-manager").children[i + 1].classList.add('hideme');
+        }
+    }
+    document.querySelector('.search-bar').value = ""
+    if (!flag) {
+        displayInfoToast("No Matching To-Do Found!")
+    }
+
+}
+
+if (document.querySelector('#search-submit-btn') != null) {
+    const seachSubmitBtn = document.querySelector('#search-submit-btn');
+    seachSubmitBtn.addEventListener('click', searchFunction)
 }
