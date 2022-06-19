@@ -116,7 +116,7 @@ function login() {
          localStorage.setItem('token', data.token);
          window.location.href = '/';
      }).catch(function (err) {
-         displayErrorToast("The credentials used are invalid.");
+         displayErrorToast("Invalid credentials");
          document.getElementById('inputUsername').value = '';
          document.getElementById('inputPassword').value = '';
      })
