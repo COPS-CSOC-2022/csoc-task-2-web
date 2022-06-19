@@ -35,3 +35,8 @@
 .todo-task {
     max-width:260px;
 }
+
+.todo-search-task {
+    margin-top:10px;
+    max-width:400px;
+}
