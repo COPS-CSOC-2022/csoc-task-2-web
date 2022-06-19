@@ -168,7 +168,7 @@ function addTask() {
     })
 }
 
-function editTask(id) {
+export function editTask(id) {
     document.getElementById('task-' + id).classList.add('hideme');
     document.getElementById('task-actions-' + id).classList.add('hideme');
     document.getElementById('input-button-' + id).classList.remove('hideme');
