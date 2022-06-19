@@ -62,11 +62,11 @@ function registerFieldsAreValid(firstName, lastName, email, username, password) 
 }
 
 function register() {
-    const firstName = document.getElementById('inputFirstName').value.trim();
     const lastName = document.getElementById('inputLastName').value.trim();
     const email = document.getElementById('inputEmail').value.trim();
-    const username = document.getElementById('inputUsername').value.trim();
     const password = document.getElementById('inputPassword').value;
+    const firstName = document.getElementById('inputFirstName').value.trim();
+    const username = document.getElementById('inputUsername').value.trim();
 
     if (registerFieldsAreValid(firstName, lastName, email, username, password)) {
         displayInfoToast("Please wait...");
@@ -96,11 +96,11 @@ function login() {
     const password = document.getElementById('inputPassword').value;
 
     if (username == '' || password == '') {
-        displayErrorToast("Please enter the required fields.");
+        displayErrorToast("The username and password space cannot be left blank");
         return;
     }
 
-    displayInfoToast("Please wait...");
+    displayInfoToast("Just relax we'll get back to you");
 
     const dataForApiRequest = {
         username: username,
@@ -128,11 +128,11 @@ function searchTask(){
     const task = document.getElementById('searchTask').value.trim();
 
     if (task == '') {
-        displayErrorToast("Task cannot be blank....");
+        displayErrorToast("Enter task to search!");
         return;
     }
 
-    displayInfoToast("Please wait...");
+    displayInfoToast("Just sit back and relax");
 
     const headersForApiRequest = {
         Authorization: 'Token ' + localStorage.getItem('token')
@@ -150,7 +150,7 @@ function searchTask(){
             displayTask(data[index].id, data[index].title);
             return;
         }
-        displayErrorToast("The specified task wasn't found...")
+        displayErrorToast("The specified task wasn't found!")
     })
 }
 
@@ -158,7 +158,7 @@ function addTask() {
     const task = document.getElementById('inputTask').value.trim();
 
     if (task == '') {
-        displayErrorToast("Task cannot be blank....");
+        displayErrorToast("Please enter a task task to search!");
         return;
     }
 
@@ -185,7 +185,6 @@ function addTask() {
     })
 
 }
-
 
 export function editTask(id) {
     document.getElementById('task-' + id).classList.add('hideme');
