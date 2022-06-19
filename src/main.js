@@ -4,18 +4,8 @@ window.deleteTask = deleteTask;
 window.updateTask = updateTask;
 window.editTask = editTask;
 const taskList = document.getElementById("taskList");
-
-const registerBtn = document.getElementById("registerBtn");
-if (registerBtn) registerBtn.onclick = register;
-const loginBtn = document.getElementById("loginBtn");
-if (loginBtn) loginBtn.onclick = login;
 const logoutBtn = document.getElementById("logoutBtn");
 if (logoutBtn) logoutBtn.onclick = logout;
-const addTaskBtn = document.getElementById("addTaskBtn");
-if (addTaskBtn) addTaskBtn.onclick = addTask;
-const searchTaskBtn = document.getElementById("searchTaskBtn");
-if (searchTaskBtn) searchTaskBtn.onclick = searchTask;
-
 
 function displaySuccessToast(message) {
     iziToast.success({
@@ -57,6 +47,9 @@ function registerFieldsAreValid(firstName, lastName, email, username, password) 
     return true;
 }
 
+const registerBtn = document.getElementById("registerBtn");
+if (registerBtn) registerBtn.onclick = register;
+
 function register() {
     const firstName = document.getElementById('inputFirstName').value.trim();
     const lastName = document.getElementById('inputLastName').value.trim();
@@ -86,6 +79,9 @@ function register() {
         })
     }
 }
+
+const loginBtn = document.getElementById("loginBtn");
+if (loginBtn) loginBtn.onclick = login;
 
 function login() {
     
@@ -122,6 +118,9 @@ function login() {
      })
  
 }
+
+const addTaskBtn = document.getElementById("addTaskBtn");
+if (addTaskBtn) addTaskBtn.onclick = addTask;
 
 function addTask() {
 
@@ -229,6 +228,10 @@ export function updateTask(id) {
         displayErrorToast("Unable to update task. Please try again...");
     })
 }
+
+
+const searchTaskBtn = document.getElementById("searchTaskBtn");
+if (searchTaskBtn) searchTaskBtn.onclick = searchTask;
 
 function searchTask(){
     const task = document.getElementById('searchTask').value.trim();
