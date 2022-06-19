@@ -7,7 +7,7 @@ function getTasks() {
         headers: {
             Authorization: 'Token ' + localStorage.getItem('token')
         }
-    }).then(function ({ data, status }) {
+    }).then(function ({ data }) {
         console.log(data);
         const list_group = document.querySelector('.list-group');
         list_group.textContent = '';
@@ -26,15 +26,13 @@ function getTasks() {
             input_field.id = 'input-button-' + d.id;
             input_field.placeholder = 'Edit The Task';
             input_field.type = 'text';
-            // create a div to store button
             const button_container = document.createElement('div');
             button_container.classList.add('input-group-append');
             button_container.classList.add('hideme');
             button_container.id = 'done-button-' + d.id;
-            // create a div and done button inside it to save edited task
             const done_button = document.createElement('button');
             done_button.classList.add('btn');
-            done_button.classList.add('btn-success');
+            done_button.classList.add('btn-outline-secondary');
             done_button.classList.add('todo-update-task');
             done_button.type = 'button';
             done_button.setAttribute('onclick', 'updateTask(' + d.id + ')');
@@ -86,7 +84,6 @@ function getSearchedTasks(data) {
         tasks_container.classList.add('justify-content-between');
         tasks_container.classList.add('align-items-center');
         tasks_container.id = d.id;
-        // add a input field to edit the task
         const input_field = document.createElement('input');
         input_field.classList.add('form-control');
         input_field.classList.add('todo-edit-task-input');
@@ -94,15 +91,13 @@ function getSearchedTasks(data) {
         input_field.id = 'input-button-' + d.id;
         input_field.placeholder = 'Edit The Task';
         input_field.type = 'text';
-        // create a div to store button
         const button_container = document.createElement('div');
         button_container.classList.add('input-group-append');
         button_container.classList.add('hideme');
         button_container.id = 'done-button-' + d.id;
-        // create a div and done button inside it to save edited task
         const done_button = document.createElement('button');
         done_button.classList.add('btn');
-        done_button.classList.add('btn-success');
+        done_button.classList.add('btn-outline-secondary');
         done_button.classList.add('todo-update-task');
         done_button.type = 'button';
         done_button.setAttribute('onclick', 'updateTask(' + d.id + ')');
@@ -150,12 +145,11 @@ axios({
     },
     url: API_BASE_URL + 'auth/profile/',
     method: 'get',
-}).then(function ({ data, status }) {
+}).then(function ({ data }) {
     document.getElementById('avatar-image').src = 'https://ui-avatars.com/api/?name=' + data.name + '&background=fff&size=33&color=007bff';
     document.getElementById('profile-name').innerHTML = data.name;
     getTasks();
 })
 
 export { getTasks };
-
 export { getSearchedTasks };

@@ -34,6 +34,22 @@ const logout_btn = document.getElementById('logout-btn')
 if (logout_btn) {
     logout_btn.addEventListener('click', logout);
 }
+const register_btn = document.getElementById('register-btn');
+if (register_btn) {
+    register_btn.addEventListener('click', register)
+}
+const login_btn = document.getElementById('login-btn')
+if (login_btn) {
+    login_btn.addEventListener('click', login)
+}
+const add_btn = document.getElementById('add')
+if (add_btn) {
+    add_btn.addEventListener('click', () => { addTask() })
+}
+const search_btn = document.getElementById('search-btn');
+if (search_btn) {
+    search_btn.addEventListener('click', () => { searchTasks() })
+}
 
 function logout() {
     localStorage.removeItem('token');
@@ -50,10 +66,6 @@ function registerFieldsAreValid(firstName, lastName, email, username, password) 
         return false;
     }
     return true;
-}
-let register_btn = document.getElementById('register-btn');
-if (register_btn) {
-    register_btn.addEventListener('click', register)
 }
 function register() {
     const firstName = document.getElementById('inputFirstName').value.trim();
@@ -83,24 +95,21 @@ function register() {
         })
     }
 }
-const login_btn = document.getElementById('login-btn')
-if (login_btn) {
-    login_btn.addEventListener('click', login)
-}
+
 function login() {
     const username = document.getElementById('inputUsername').value.trim();
     const password = document.getElementById('inputPassword').value;
     console.log(username, password);
     displayInfoToast("Please wait...");
-    const dataForApiRequest = {
+    const The_data = {
         username: username,
         password: password
     }
     axios({
         url: API_BASE_URL + 'auth/login/',
         method: 'post',
-        data: dataForApiRequest,
-    }).then(function ({ data, status }) {
+        data: The_data,
+    }).then(function ({ data }) {
         console.log(data);
         localStorage.setItem('token', data.token);
         window.location.href = '/';
@@ -110,10 +119,6 @@ function login() {
         displayErrorToast('Invalid username or password');
     }
     )
-}
-const add_btn = document.getElementById('add')
-if (add_btn) {
-    add_btn.addEventListener('click', () => { addTask() })
 }
 
 
@@ -125,17 +130,17 @@ function addTask() {
         return;
     }
     displayInfoToast("Please wait...");
-    const dataForApiRequest = {
+    const The_data = {
         title: task
     }
     axios({
         url: API_BASE_URL + 'todo/create/',
         method: 'post',
-        data: dataForApiRequest,
+        data: The_data,
         headers: {
             'Authorization': 'Token ' + localStorage.getItem('token')
         }
-    }).then(function ({ data, status }) {
+    }).then(function () {
         document.getElementById('inputTask').value = '';
         displaySuccessToast("Task added successfully");
         getTasks();
@@ -145,14 +150,6 @@ function addTask() {
         displayErrorToast('Error adding task');
     }
     )
-}
-
-
-const edit_btn = document.getElementById('edit-btn');
-if (edit_btn) {
-    edit_btn.addEventListener('click', () => {
-        editTask(1);
-    })
 }
 
 
@@ -173,10 +170,9 @@ function deleteTask(_id) {
         headers: {
             Authorization: 'Token ' + localStorage.getItem('token')
         }
-    }).then(function ({ dat, stat }) {
+    }).then(function ({ dat }) {
         displaySuccessToast('Task deleted successfully');
         console.log(dat);
-        // remove the task from the dom
         const task_to_delete = document.getElementById(_id);
         task_to_delete.remove();
     }).catch(function (error) {
@@ -194,17 +190,17 @@ function updateTask(id) {
         return;
     }
     displayInfoToast("Please wait...");
-    const dataForApiRequest = {
+    const The_data = {
         title: task
     }
     axios({
         url: API_BASE_URL + 'todo/' + id + '/',
         method: 'put',
-        data: dataForApiRequest,
+        data: The_data,
         headers: {
             Authorization: 'Token ' + localStorage.getItem('token')
         }
-    }).then(function ({ data, status }) {
+    }).then(function ({ data }) {
         console.log(data);
         document.getElementById('input-button-' + id).value = '';
         displaySuccessToast("Task updated successfully");
@@ -218,14 +214,6 @@ function updateTask(id) {
 }
 
 
-
-const search_btn = document.getElementById('search-btn');
-if (search_btn) {
-    search_btn.addEventListener('click', () => {
-        searchTasks();
-    }
-    )
-}
 function searchTasks() {
     const search_term = document.getElementById('search-term').value.trim();
     if (search_term === '') {
@@ -239,7 +227,7 @@ function searchTasks() {
         headers: {
             Authorization: 'Token ' + localStorage.getItem('token')
         }
-    }).then(function ({ data, status }) {
+    }).then(function ({ data }) {
         console.log(data);
         const filtered_tasks = data.filter(task => {
             return task.title.toLowerCase().includes(search_term.toLowerCase());
@@ -252,6 +240,7 @@ function searchTasks() {
         } else {
             displaySuccessToast("Tasks found");
             getSearchedTasks(filtered_tasks);
+
         }
     }
     ).catch(function (err) {
@@ -262,13 +251,4 @@ function searchTasks() {
 }
 
 
-
-
-
-
-
-
-
-
-// export deleteTask,updateTask,addTask,editTask;
 export { deleteTask, updateTask, addTask, editTask };
