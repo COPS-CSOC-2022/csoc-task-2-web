@@ -250,6 +250,7 @@ function searchTasks() {
             displayErrorToast("No tasks found");
             return;
         } else {
+            displaySuccessToast("Tasks found");
             getSearchedTasks(filtered_tasks);
         }
     }
