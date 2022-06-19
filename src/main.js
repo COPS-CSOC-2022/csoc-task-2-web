@@ -1,19 +1,42 @@
 import axios from 'axios';
-function displaySuccessToast(message) {
+import { displayTask, getTasks } from './init';
+
+window.deleteTask = deleteTask;
+window.updateTask = updateTask;
+window.editTask = editTask;
+
+const taskList = document.getElementById("taskList");
+
+//functioned allbuttons
+
+const loginButton = document.getElementById("loginButton");
+if (loginButton) loginButton.onclick = login;
+const addTaskButton = document.getElementById("addTaskButton");
+if (addTaskButton) addTaskButton.onclick = addTask;
+const searchTaskButton = document.getElementById("searchTaskButton");
+if (searchTaskButton) searchTaskButton.onclick = searchTask;
+const logoutButton = document.getElementById("logoutButton");
+if (logoutButton) logoutButton.onclick = logout;
+const registerButton = document.getElementById("registerButton");
+if (registerButton) registerButton.onclick = register;
+
+
+// Displaying toasts
+function displaySuccessmsgToast(message) {
     iziToast.success({
-        title: 'Success',
+        title: 'Successful!!',
         message: message
     });
 }
 
 function displayErrorToast(message) {
     iziToast.error({
-        title: 'Error',
+        title: 'Error!!',
         message: message
     });
 }
 
-function displayInfoToast(message) {
+function displayqueryToast(message) {
     iziToast.info({
         title: 'Info',
         message: message
@@ -40,14 +63,14 @@ function registerFieldsAreValid(firstName, lastName, email, username, password) 
 }
 
 function register() {
-    const firstName = document.getElementById('inputFirstName').value.trim();
     const lastName = document.getElementById('inputLastName').value.trim();
     const email = document.getElementById('inputEmail').value.trim();
-    const username = document.getElementById('inputUsername').value.trim();
     const password = document.getElementById('inputPassword').value;
+    const firstName = document.getElementById('inputFirstName').value.trim();
+    const username = document.getElementById('inputUsername').value.trim();
 
     if (registerFieldsAreValid(firstName, lastName, email, username, password)) {
-        displayInfoToast("Please wait...");
+        displayqueryToast("Please wait...");
 
         const dataForApiRequest = {
             name: firstName + " " + lastName,
@@ -60,50 +83,163 @@ function register() {
             url: API_BASE_URL + 'auth/register/',
             method: 'post',
             data: dataForApiRequest,
-        }).then(function({data, status}) {
-          localStorage.setItem('token', data.token);
-          window.location.href = '/';
-        }).catch(function(err) {
-          displayErrorToast('An account using same email or username is already created');
+        }).then(function ({ data, status }) {
+            localStorage.setItem('token', data.token);
+            window.location.href = '/';
+        }).catch(function (err) {
+            displayErrorToast('An account using same email or username is already created');
         })
     }
 }
 
 function login() {
-    /***
-     * @todo Complete this function.
-     * @todo 1. Write code for form validation.
-     * @todo 2. Fetch the auth token from backend, login and direct user to home page.
-     */
+    const username = document.getElementById('inputUsername').value.trim();
+    const password = document.getElementById('inputPassword').value;
+
+    if (username == '' || password == '') {
+        displayErrorToast("The username and password space cannot be left blank");
+        return;
+    }
+
+    displayqueryToast("Just relax we'll get back to you");
+
+    const dataForApiRequest = {
+        username: username,
+        password: password
+    }
+
+    axios({
+        url: API_BASE_URL + 'auth/login/',
+        method: 'POST',
+        data: dataForApiRequest,
+    }).then(function ({ data, status }) {
+        displaySuccessmsgToast("Login Successful...");
+        localStorage.setItem('token', data.token);
+        window.location.href = '/';
+    }).catch(function (err) {
+        displayErrorToast("The credentials used are invalid.");
+        document.getElementById('inputUsername').value = '';
+        document.getElementById('inputPassword').value = '';
+    })
+
+}
+
+
+function searchTask(){
+    const task = document.getElementById('searchTask').value.trim();
+
+    if (task == '') {
+        displayErrorToast("Enter task to search!");
+        return;
+    }
+
+    displayqueryToast("Just sit back and relax");
+
+    const headersForApiRequest = {
+        Authorization: 'Token ' + localStorage.getItem('token')
+    }
+
+    axios({
+        headers: headersForApiRequest,
+        url: API_BASE_URL + 'todo/',
+        method: 'GET',
+    }).then(function ({ data, status }) {
+        console.log(data);
+        for (var index = 0; index < data.length; index++) if (data[index].title == task){
+            taskList.innerHTML = "";
+            displaySuccessmsgToast("Task found...");
+            displayTask(data[index].id, data[index].title);
+            return;
+        }
+        displayErrorToast("The specified task wasn't found!")
+    })
 }
 
 function addTask() {
-    /**
-     * @todo Complete this function.
-     * @todo 1. Send the request to add the task to the backend server.
-     * @todo 2. Add the task in the dom.
-     */
+    const task = document.getElementById('inputTask').value.trim();
+
+    if (task == '') {
+        displayErrorToast("Please enter a task task to search!");
+        return;
+    }
+
+    displayqueryToast("Please wait...");
+
+    const dataForApiRequest = {
+        title: task
+    }
+    const headersForApiRequest = {
+        Authorization: 'Token ' + localStorage.getItem('token')
+    }
+
+    axios({
+        headers: headersForApiRequest,
+        url: API_BASE_URL + 'todo/create/',
+        method: 'POST',
+        data: dataForApiRequest,
+    }).then(function ({ data, status }) {
+        displaySuccessmsgToast("Todo added successfully...");
+        document.getElementById('inputTask').value = '';
+        getTasks();
+    }).catch(function (err) {
+        displayErrorToast("Unable to add the task. Please try again...");
+    })
+
 }
 
-function editTask(id) {
+export function editTask(id) {
     document.getElementById('task-' + id).classList.add('hideme');
     document.getElementById('task-actions-' + id).classList.add('hideme');
     document.getElementById('input-button-' + id).classList.remove('hideme');
     document.getElementById('done-button-' + id).classList.remove('hideme');
 }
 
-function deleteTask(id) {
-    /**
-     * @todo Complete this function.
-     * @todo 1. Send the request to delete the task to the backend server.
-     * @todo 2. Remove the task from the dom.
-     */
+export function deleteTask(id) {
+    displayqueryToast("Please wait...");
+
+    const headersForApiRequest = {
+        Authorization: 'Token ' + localStorage.getItem('token')
+    }
+
+    axios({
+        headers: headersForApiRequest,
+        url: API_BASE_URL + 'todo/' + id + '/',
+        method: 'DELETE',
+    }).then(function ({ data, status }) {
+        displaySuccessmsgToast("Todo deleted successfully...");
+        getTasks();
+    }).catch(function (err) {
+        displayErrorToast("Unable to delete the given task. Please try again...");
+    })
 }
 
-function updateTask(id) {
-    /**
-     * @todo Complete this function.
-     * @todo 1. Send the request to update the task to the backend server.
-     * @todo 2. Update the task in the dom.
-     */
+export function updateTask(id) {
+    const newTask = document.getElementById("input-button-" + id).value.trim();
+    const taskItem = document.getElementById("task-" + id);
+
+    if (newTask==""){
+        displayErrorToast("The task title can't be blank");
+        return;
+    }
+
+    const dataForApiRequest = {
+        title: newTask
+    }
+    const headersForApiRequest = {
+        Authorization: 'Token ' + localStorage.getItem('token')
+    }
+
+    axios({
+        headers: headersForApiRequest,
+        url: API_BASE_URL + 'todo/' + id + '/',
+        method: 'PUT',
+        data: dataForApiRequest,
+    }).then(function ({ data, status }) {
+        taskItem.textContent=data.title;
+        editTask(data.id);
+        displaySuccessmsgToast("Todo updated successfully...");
+        getTasks();
+    }).catch(function (err) {
+        displayErrorToast("Unable to update the task. Please try again...");
+    })
 }
