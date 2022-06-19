@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getTasks } from './init';
+import { getSearchedTasks } from './init';
 
 window.deleteTask = deleteTask;
 window.updateTask = updateTask;
@@ -215,6 +216,57 @@ function updateTask(id) {
     }
     )
 }
+
+
+
+const search_btn = document.getElementById('search-btn');
+if (search_btn) {
+    search_btn.addEventListener('click', () => {
+        searchTasks();
+    }
+    )
+}
+function searchTasks() {
+    const search_term = document.getElementById('search-term').value.trim();
+    if (search_term === '') {
+        displayErrorToast("Please enter a search term");
+        return;
+    }
+    displayInfoToast("Please wait...");
+    axios({
+        url: API_BASE_URL + 'todo/',
+        method: 'get',
+        headers: {
+            Authorization: 'Token ' + localStorage.getItem('token')
+        }
+    }).then(function ({ data, status }) {
+        console.log(data);
+        const filtered_tasks = data.filter(task => {
+            return task.title.toLowerCase().includes(search_term.toLowerCase());
+        }
+        );
+        console.log(filtered_tasks);
+        if (filtered_tasks.length === 0) {
+            displayErrorToast("No tasks found");
+            return;
+        } else {
+            getSearchedTasks(filtered_tasks);
+        }
+    }
+    ).catch(function (err) {
+        console.log(err);
+        displayErrorToast('Error searching tasks');
+    }
+    )
+}
+
+
+
+
+
+
+
+
 
 
 // export deleteTask,updateTask,addTask,editTask;
