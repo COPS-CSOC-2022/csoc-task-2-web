@@ -105,6 +105,11 @@ window.addTask = function () {
      * @todo 2. Add the task in the dom.
      */
     const inp = document.getElementById("add-task").value;
+    if(inp==="")
+    {
+        displayErrorToast("Task Cannot be Empty");
+        return;
+    }
     axios({
         headers: {
             Authorization: 'Token ' + localStorage.getItem('token'),
@@ -122,7 +127,6 @@ window.addTask = function () {
         console.log(err)
         displayErrorToast("Add Task was unsuccessfull...");
     })
-    console.log("addTask clicked");
 }
 
 window.editTask = function(id) {
@@ -148,7 +152,6 @@ window.deleteTask = function(id) {
         displaySuccessToast("Task Deleted Successfully...");
         getTasks();
     })
-     console.log("deleteTask clicked");
 }
 window.updateTask = function(id) {
     /**
@@ -158,6 +161,11 @@ window.updateTask = function(id) {
      */
     const newTitle = document.getElementById(`input-button-${id}`).value.trim();
     const taskItem = document.getElementById(`task-${id}`);
+    if(newTitle==="")
+    {
+        displayErrorToast("Task Cannot be Empty");
+        return;
+    }
     axios({
         headers: {
             Authorization: 'Token ' + localStorage.getItem('token')
@@ -171,5 +179,41 @@ window.updateTask = function(id) {
         displaySuccessToast("Task Edited Successfully...")
         getTasks();
     })
-     console.log("updateTask clicked");
+}
+
+window.search = function(){
+    displayInfoToast("Searching...")
+    var title = document.getElementById("search-input").value.trim();
+    var flag = 0;
+    if(title==="")
+    {
+        displayErrorToast("Empty Search...");
+        return;
+    }
+    axios({
+        headers: {
+            Authorization: 'Token ' + localStorage.getItem('token'),
+        },
+        url: API_BASE_URL + 'todo/',
+        method: 'get'
+    }).then(function({data,status}){
+        document.getElementById('taskList').innerHTML = "";
+        for(var i = 0; i < data.length ; i++ )
+        {
+            if(title === data[i].title)
+            {
+                displayItems(data[i].id,data[i].title);
+                displaySuccessToast("Task Found...");
+                flag = 1;
+            }
+        }
+        if(flag===0)
+        {
+            displayErrorToast("Task does not exist...");
+            getTasks();
+        }
+    }).catch(function(err){
+        console.log(err);
+    })
+
 }

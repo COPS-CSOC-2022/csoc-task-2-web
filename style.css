@@ -35,3 +35,10 @@
 .todo-task {
     max-width:260px;
 }
+#search-input{
+    width:15vw;
+    margin-right:0.6vw;
+}
+#search-btn{
+    margin-right: 2vw;
+}
