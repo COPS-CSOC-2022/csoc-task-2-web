@@ -2,10 +2,10 @@
 
 I have completed the following tasks
 
-- [ ] Login
-- [ ] `auth_required.js` and `no_auth_required.js`
-- [ ] Add Task
-- [ ] Get Tasks
-- [ ] Edit Task
-- [ ] Delete Task
-- [ ] Bonus Task
+- [X ] Login
+- [X] `auth_required.js` and `no_auth_required.js`
+- [ X] Add Task
+- [X ] Get Tasks
+- [ x] Edit Task
+- [X ] Delete Task
+- [ X] Bonus Task
