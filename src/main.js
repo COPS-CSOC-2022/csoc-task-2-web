@@ -32,6 +32,11 @@ function registerFieldsAreValid(firstName, lastName, email, username, password) 
         displayErrorToast("Please fill all the fields correctly.");
         return false;
     }
+function loginFieldsAreValid(Username, Password) {
+    if (Username === '' || Password === '') {
+        displayErrorToast("Please fill all the fields correctly.");
+        return false;  
+    }
     if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))) {
         displayErrorToast("Please enter a valid email address.")
         return false;
@@ -70,11 +75,30 @@ function register() {
 }
 
 function login() {
-    /***
-     * @todo Complete this function.
-     * @todo 1. Write code for form validation.
-     * @todo 2. Fetch the auth token from backend, login and direct user to home page.
-     */
+   const Username = document.getElementById('inputU').value.trim();
+   const Password = document.getElementById('inputP').value;
+     if (loginFieldsAreValid(Username,Password)) {
+        displayInfoToast("Please wait...");
+         const dataForApiRequest = {
+           Username: Username,
+            Password: Password
+        }
+axios({
+            url: API_BASE_URL + 'auth/register/',
+            method: 'post',
+            data: dataForApiRequest,
+        }).then(function({data, status}) {
+          localStorage.setItem('token', data.token);
+          window.location.href = '/';
+        }).catch(function(err) {
+          displayErrorToast('Invalid Username or Password');
+        })
+    }
+}         
+
+    
+    
+    
 }
 
 function addTask() {
