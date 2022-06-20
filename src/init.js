@@ -1,10 +1,32 @@
 import axios from 'axios';
+import { createTask } from "./main";
 const API_BASE_URL = 'https://todo-app-csoc.herokuapp.com/';
 
-function getTasks() {
+function getTasks() 
+{
     /***
      * @todo Fetch the tasks created by the user and display them in the dom.
      */
+    axios({
+        url:API_BASE_URL + "todo/",
+        method:"get",
+        headers:{
+            Authorization:"Token "+localStorage.getItem("token")
+        }        
+      
+    })
+    .then(function({data})
+    {
+        const list_group = document.querySelector('.list-group');
+        list_group.textContent = '';
+        data.forEach((element) => createTask(element));
+    })
+    .catch(function (err) {
+        iziToast.error({
+            title: 'Error',
+            message: "Cannot get it!"
+        });
+    });
 }
 
 axios({
@@ -18,3 +40,5 @@ axios({
   document.getElementById('profile-name').innerHTML = data.name;
   getTasks();
 })
+
+export { getTasks };
