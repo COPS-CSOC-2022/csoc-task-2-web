@@ -1,18 +1,30 @@
 import axios from 'axios';
 import { updateTask, deleteTask, editTask } from './main';
-const API_BASE_URL = 'https://todo-app-csoc.herokuapp.com/';
+
 window.deleteTask = deleteTask;
 window.updateTask = updateTask;
 window.editTask = editTask;
+
 const taskList = document.getElementById("taskList");
+const API_BASE_URL = 'https://todo-app-csoc.herokuapp.com/';
+
+axios({
+    headers: {
+        Authorization: 'Token ' + localStorage.getItem('token'),
+    },
+    url: API_BASE_URL + 'auth/profile/',
+    method: 'get',
+}).then(function ({ data, status }) {
+    document.getElementById('avatar-image').src = 'https://ui-avatars.com/api/?name=' + data.name + '&background=fff&size=33&color=007bff';
+    document.getElementById('profile-name').innerHTML = data.name;
+    getTasks();
+})
 
 export function getTasks() {
-    /***
-     * @todo Fetch the tasks created by the user and display them in the dom.
-     */
     const headersForApiRequest = {
-       Authorization: 'Token ' + localStorage.getItem('token')
-}
+        Authorization: 'Token ' + localStorage.getItem('token')
+    }
+
     axios({
         headers: headersForApiRequest,
         url: API_BASE_URL + 'todo/',
@@ -22,23 +34,12 @@ export function getTasks() {
         taskList.innerHTML = "";
         for (var index = 0; index < data.length; index++) displayTask(data[index].id, data[index].title);
     })
-    }
+}
 
-axios({
-    headers: {
-        Authorization: 'Token ' + localStorage.getItem('token'),
-    },
-    url: API_BASE_URL + 'auth/profile/',
-    method: 'get',
-}).then(function({data, status}) {
-  document.getElementById('avatar-image').src = 'https://ui-avatars.com/api/?name=' + data.name + '&background=fff&size=33&color=007bff';
-  document.getElementById('profile-name').innerHTML = data.name;
-  getTasks();
-})
 
 export function displayTask(id, title) {
     
-    var template =  `
+    var template = `
     <li class="list-group-item d-flex justify-content-between align-items-center" class="taskElement" id="taskElement-REPLACE_ID">
         <input id="input-button-REPLACE_ID" type="text" class="form-control todo-edit-task-input hideme" placeholder="Edit The Task">
         <div id="done-button-REPLACE_ID"  class="input-group-append hideme">
@@ -47,6 +48,7 @@ export function displayTask(id, title) {
         <div id="task-REPLACE_ID" class="todo-task">
             REPLACE_TASK_TITLE
         </div>
+
         <span id="task-actions-REPLACE_ID">
             <button style="margin-right:5px;" type="button" id="editTaskButtonREPLACE_ID" class="btn btn-outline-warning" onclick="editTask(REPLACE_ID)">
                 <img src="https://res.cloudinary.com/nishantwrp/image/upload/v1587486663/CSOC/edit.png" width="18px" height="20px">
@@ -61,4 +63,11 @@ export function displayTask(id, title) {
     var result2 = result1.replace("REPLACE_TASK_TITLE", title);
 
     taskList.innerHTML += result2;
+
+    // var updateTaskButton = document.getElementById("updateTaskButton" + id);
+    // if (updateTaskButton) updateTaskButton.addEventListener("click", updateTask(id));
+    // var editTaskButton = document.getElementById("editTaskButton" + id);
+    // if (editTaskButton) editTaskButton.addEventListener("click", editTask(id));
+    // var deleteTaskButton = document.getElementById("deleteTaskButton" + id);
+    // if (deleteTaskButton) deleteTaskButton.addEventListener("click", deleteTask(id));
 }
