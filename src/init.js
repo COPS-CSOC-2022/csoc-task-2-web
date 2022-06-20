@@ -1,10 +1,23 @@
 import axios from 'axios';
+import { addNewField } from './main.js';
 const API_BASE_URL = 'https://todo-app-csoc.herokuapp.com/';
 
 function getTasks() {
-    /***
-     * @todo Fetch the tasks created by the user and display them in the dom.
-     */
+    axios({
+        headers: {
+            Authorization: 'Token ' + localStorage.getItem('token'),
+        },
+        url: API_BASE_URL + 'todo/',
+        method: 'get',
+    }).then(function (res) {
+        const { data, status } = res;
+        for (let i of data) {
+            const taskIndex = i.id;
+            const taskData = i.title;
+            addNewField(taskData, taskIndex);
+        }
+    });
+}
 }
 
 axios({
