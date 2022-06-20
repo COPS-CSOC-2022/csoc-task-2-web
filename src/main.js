@@ -75,26 +75,34 @@ function register() {
 }
 
 function login() {
-   const Username = document.getElementById('inputU').value.trim();
-   const Password = document.getElementById('inputP').value;
-     if (loginFieldsAreValid(Username,Password)) {
-        displayInfoToast("Please wait...");
-         const dataForApiRequest = {
-           Username: Username,
-            Password: Password
-        }
-axios({
-            url: API_BASE_URL + 'auth/register/',
-            method: 'post',
-            data: dataForApiRequest,
-        }).then(function({data, status}) {
-          localStorage.setItem('token', data.token);
-          window.location.href = '/';
-        }).catch(function(err) {
-          displayErrorToast('Invalid Username or Password');
-        })
+    var username = document.getElementById('inputUsername').value.trim();
+    var password = document.getElementById('inputPassword').value.trim();
+
+    if (username == "" || password == "") {
+        displayErrorToast("Please fill all the required fields!");
+        return;
     }
-}         
+
+    displayInfoToast("Processing..");
+    const userData = {
+        username: username,
+        password: password
+    }
+
+    axios({
+        url: API_BASE_URL + 'auth/login/',
+        method: 'post',
+        data: userData
+    })
+        .then(function ({ data, status }) {
+            localStorage.setItem('token', data.token);
+            window.location.href = '/';
+        })
+        .catch(function (err) {
+            displayErrorToast("Account with given details not found! Try Again");
+        })
+}
+    
 
     
     
@@ -102,11 +110,41 @@ axios({
 }
 
 function addTask() {
-    /**
-     * @todo Complete this function.
-     * @todo 1. Send the request to add the task to the backend server.
-     * @todo 2. Add the task in the dom.
-     */
+      const newTask = document.getElementById('enter-task').value.trim();
+    if (newTask == "") {
+        return;
+    }
+    const task = {
+        title: newTask,
+    }
+
+    axios({
+        headers: {
+            Authorization: "Token " + localStorage.getItem("token")
+        },
+        url: API_BASE_URL + 'todo/create/',
+        method: 'post',
+        data: task,
+    })
+        .then(function ({ data, status }) {
+            document.getElementById("enter-task").innerHTML = "";
+            axios({
+                headers: {
+                    Authorization: "Token " + localStorage.getItem("token")
+                },
+                url: API_BASE_URL + 'todo/',
+                method: 'get',
+            }).then(function ({ data, status }) {
+                var len = data.length;
+                var id = data[len - 1].id;
+                var list = $('#list');
+                list.append(addNewField(title, id));
+            })
+        })
+        .catch(function (error) {
+            displayErrorToast("Could not add the task.");
+        })
+}
 }
 
 function editTask(id) {
@@ -117,17 +155,39 @@ function editTask(id) {
 }
 
 function deleteTask(id) {
-    /**
-     * @todo Complete this function.
-     * @todo 1. Send the request to delete the task to the backend server.
-     * @todo 2. Remove the task from the dom.
-     */
+    console.log("Deleting task");
+    axios({
+        headers: { Authorization: "Token " + localStorage.getItem('token') },
+        url: API_BASE_URL + 'todo/' + id + '/',
+        method: 'delete',
+    })
+        .then(function ({ data, status }) {
+            document.querySelector(`#todo-${id}`).remove();
+            displaySuccessToast("Task deleted successfully");
+        })
+        .catch(function (err) {
+            displayErrorToast(err);
+        })
+}
 }
 
 function updateTask(id) {
-    /**
-     * @todo Complete this function.
-     * @todo 1. Send the request to update the task to the backend server.
-     * @todo 2. Update the task in the dom.
-     */
+     const task = document.getElementById("input-button-" + id).value.trim();
+    if (task != "") {
+        axios({
+            headers: { Authorization: "Token " + localStorage.getItem("token") },
+            method: "patch",
+            url: API_BASE_URL + "todo/" + id + "/",
+            data: { title: task }
+        }).then(function ({ data, status }) {
+            document.getElementById("todo-" + id).classList.remove("hideme");
+            document.getElementById("task-actions-" + id).classList.remove("hideme");
+            document.getElementById("input-button-" + id).classList.add("hideme");
+            document.getElementById("done-button-" + id).classList.add("hideme");
+            document.getElementById("todo-" + id).innerText = task;
+        }).catch(function (err) {
+            displayErrorToast("Task not updated");
+        })
+    }
+}
 }
