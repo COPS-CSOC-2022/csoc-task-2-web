@@ -191,3 +191,58 @@ function updateTask(id) {
     }
 }
 }
+function addNewField(title, id) {
+    const availableTasks = document.querySelector(".todo-available-tasks");
+    const newTask = document.createElement("newElement");
+
+    newTask.innerHTML = `
+        <input id="input-button-${id}" type="text" class="form-control todo-edit-task-input hideme"  placeholder="Edit The Task">
+        <div id="done-button-${id}" class="input-group-append hideme">
+            <button class="btn btn-outline-secondary todo-update-task" type="button" id="updateTaskBtn-${id}">Done</button>
+        </div>
+        <div id="task-${id}" class="todo-task">
+            ${title}
+        </div>
+        <span id="task-actions-${id}">
+            <button style="margin-right:5px;" type="button" id="editTaskBtn-${id}"
+                class="btn btn-outline-warning">
+                <img src="https://res.cloudinary.com/nishantwrp/image/upload/v1587486663/CSOC/edit.png"
+                    width="18px" height="20px">
+            </button>
+            <button type="button" class="btn btn-outline-danger" id="deleteTaskBtn-${id}">
+                <img src="https://res.cloudinary.com/nishantwrp/image/upload/v1587486661/CSOC/delete.svg"
+                    width="18px" height="22px">
+            </button>
+        </span>`;
+    newTask.id = `todo-${id}`;
+    newTask.classList.add(
+        "justify-content-between",
+        "align-items-center",
+        "list-group-item",
+        "d-flex",
+    );
+    availableTasks.appendChild(newTask);
+
+    document.getElementById("input-button-" + id).value = title;
+    document.querySelector(`#editTaskBtn-${id}`).addEventListener("click", () => editTask(id));
+    document.querySelector(`#updateTaskBtn-${id}`).addEventListener("click", () => updateTask(id));
+    document.querySelector(`#deleteTaskBtn-${id}`).addEventListener("click", () => deleteTask(id));
+}
+
+if (document.getElementById('logout-btn')) {
+    document.getElementById('logout-btn').onclick = logout;
+}
+
+if (document.getElementById('register-btn')) {
+    document.getElementById('register-btn').onclick = register;
+}
+
+if (document.getElementById('login-btn')) {
+    document.getElementById('login-btn').onclick = login;
+}
+
+if (document.getElementById('add-task-btn')) {
+    document.getElementById('add-task-btn').onclick = addTask;
+}
+
+export { addNewField }; 
