@@ -1,6 +1,7 @@
 /***
  * @todo Redirect the user to main page if token is present.
  */
- if (localStorage.getItem('token')) {
+ var tokencheck=localStorage.getItem('token');
+ if (tokencheck) {
     window.location.href = '/';
-}
+}  
