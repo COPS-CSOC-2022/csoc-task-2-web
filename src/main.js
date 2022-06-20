@@ -6,8 +6,6 @@ window.updateTask = updateTask;
 window.editTask = editTask;
 
 const taskList = document.getElementById("taskList");
-
-// Making all the buttons functional
 const logoutButton = document.getElementById("logoutButton");
 if (logoutButton) logoutButton.onclick = logout;
 const loginButton = document.getElementById("loginButton");
@@ -20,7 +18,6 @@ const searchTaskButton = document.getElementById("searchTaskButton");
 if (searchTaskButton) searchTaskButton.onclick = searchTask;
 
 
-// Displaying toasts
 function displaySuccessToast(message) {
     iziToast.success({
         title: 'Success',
@@ -69,7 +66,7 @@ function register() {
     const password = document.getElementById('inputPassword').value;
 
     if (registerFieldsAreValid(firstName, lastName, email, username, password)) {
-        displayInfoToast("Please wait...");
+        displayInfoToast("Loading...");
 
         const dataForApiRequest = {
             name: firstName + " " + lastName,
@@ -86,7 +83,7 @@ function register() {
             localStorage.setItem('token', data.token);
             window.location.href = '/';
         }).catch(function (err) {
-            displayErrorToast('An account using same email or username is already created');
+            displayErrorToast('Account with same username or passord has been created');
         })
     }
 }
@@ -100,7 +97,7 @@ function login() {
         return;
     }
 
-    displayInfoToast("Please wait...");
+    displayInfoToast("Loading...");
 
     const dataForApiRequest = {
         username: username,
@@ -112,7 +109,7 @@ function login() {
         method: 'POST',
         data: dataForApiRequest,
     }).then(function ({ data, status }) {
-        displaySuccessToast("Login Successful...");
+        displaySuccessToast("You are logged in successfully");
         localStorage.setItem('token', data.token);
         window.location.href = '/';
     }).catch(function (err) {
@@ -128,11 +125,11 @@ function searchTask(){
     const task = document.getElementById('searchTask').value.trim();
 
     if (task == '') {
-        displayErrorToast("Task cannot be blank....");
+        displayErrorToast("Todo cannot be blank");
         return;
     }
 
-    displayInfoToast("Please wait...");
+    displayInfoToast("Loading...");
 
     const headersForApiRequest = {
         Authorization: 'Token ' + localStorage.getItem('token')
@@ -146,11 +143,11 @@ function searchTask(){
         console.log(data);
         for (var index = 0; index < data.length; index++) if (data[index].title == task){
             taskList.innerHTML = "";
-            displaySuccessToast("Task found...");
+            displaySuccessToast("This task was found");
             displayTask(data[index].id, data[index].title);
             return;
         }
-        displayErrorToast("The specified task wasn't found...")
+        displayErrorToast("The given task wasn't found")
     })
 }
 
@@ -158,11 +155,11 @@ function addTask() {
     const task = document.getElementById('inputTask').value.trim();
 
     if (task == '') {
-        displayErrorToast("Task cannot be blank....");
+        displayErrorToast("Todo cannot be blank");
         return;
     }
 
-    displayInfoToast("Please wait...");
+    displayInfoToast("Loading...");
 
     const dataForApiRequest = {
         title: task
@@ -177,11 +174,11 @@ function addTask() {
         method: 'POST',
         data: dataForApiRequest,
     }).then(function ({ data, status }) {
-        displaySuccessToast("Todo added successfully...");
+        displaySuccessToast("Todo added successfully");
         document.getElementById('inputTask').value = '';
         getTasks();
     }).catch(function (err) {
-        displayErrorToast("Unable to add the task. Please try again...");
+        displayErrorToast("Unable to add the todo. Please try again");
     })
 
 }
@@ -209,7 +206,7 @@ export function deleteTask(id) {
         displaySuccessToast("Todo deleted successfully...");
         getTasks();
     }).catch(function (err) {
-        displayErrorToast("Unable to delete the given task. Please try again...");
+        displayErrorToast("Unable to delete the given todo. Please try again");
     })
 }
 
@@ -218,7 +215,7 @@ export function updateTask(id) {
     const taskItem = document.getElementById("task-" + id);
 
     if (newTask==""){
-        displayErrorToast("The task title can't be blank");
+        displayErrorToast("The todo title can't be blank");
         return;
     }
 
@@ -240,6 +237,6 @@ export function updateTask(id) {
         displaySuccessToast("Todo updated successfully...");
         getTasks();
     }).catch(function (err) {
-        displayErrorToast("Unable to update the task. Please try again...");
+        displayErrorToast("Unable to update the todo. Please try again...");
     })
 }
