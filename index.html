@@ -23,6 +23,7 @@
 </head>
 
 <body>
+    <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <a class="navbar-brand" href="#">Todo</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -45,7 +46,7 @@
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img src="#" class="rounded-circle" id="avatar-image"><span class="todo-profile-name" id="profile-name">Loading ...</span></a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#" onclick="logout()">Logout</a>
+                            <a class="dropdown-item" href="#" id="logout-button">Logout</a>
                         </div>
                     </li>
                 </ul>
@@ -53,42 +54,46 @@
         </div>
     </nav>
     <center>
+
+
         <div class="input-group mb-3 todo-add-task">
-            <input type="text" class="form-control" placeholder="Enter Task">
+            <input id="task-input" type="text" class="form-control" placeholder="Enter Task">
             <div class="input-group-append">
-                <button type="button" class="btn btn-outline-success" onclick="addTask()">Add Task</button>
+                <button type="button" class="btn btn-outline-success" id="add-task">Add Task</button>
             </div>
         </div>
         <ul class="list-group todo-available-tasks">
             <span class="badge badge-primary badge-pill todo-available-tasks-text">
                 Available Tasks
             </span>
-
+        
+        <div id="tasks"></div>
+<!-- 
 
             <li class="list-group-item d-flex justify-content-between align-items-center">
                     <input id="input-button-1" type="text" class="form-control todo-edit-task-input hideme" placeholder="Edit The Task">
                     <div id="done-button-1"  class="input-group-append hideme">
-                        <button class="btn btn-outline-secondary todo-update-task" type="button" onclick="updateTask(1)">Done</button>
+                        <button class="btn btn-outline-secondary todo-update-task" type="button" id="update-task-1">Done</button>
                     </div>
                     <div id="task-1" class="todo-task">
                         Sample Task 1
                     </div>
 
                     <span id="task-actions-1">
-                        <button style="margin-right:5px;" type="button" onclick="editTask(1)"
+                        <button style="margin-right:5px;" type="button" id="edit-task-1"
                             class="btn btn-outline-warning">
                             <img src="https://res.cloudinary.com/nishantwrp/image/upload/v1587486663/CSOC/edit.png"
                                 width="18px" height="20px">
                         </button>
-                        <button type="button" class="btn btn-outline-danger" onclick="deleteTask(1)">
+                        <button type="button" class="btn btn-outline-danger" id = "delete-task-1">
                             <img src="https://res.cloudinary.com/nishantwrp/image/upload/v1587486661/CSOC/delete.svg"
                                 width="18px" height="22px">
                         </button>
                     </span>
             </li>
+ -->
 
-
-            <li class="list-group-item d-flex justify-content-between align-items-center">
+            <!-- <li class="list-group-item d-flex justify-content-between align-items-center">
                     <input id="input-button-2" type="text" class="form-control todo-edit-task-input hideme" placeholder="Edit The Task">
                     <div id="done-button-2" class="input-group-append hideme">
                         <button class="btn btn-outline-secondary todo-update-task" type="button" onclick="updateTask(2)">Done</button>
@@ -108,7 +113,7 @@
                                 width="18px" height="22px">
                         </button>
                     </span>
-            </li>
+            </li> -->
 
 
         </ul>
