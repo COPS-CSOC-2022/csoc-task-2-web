@@ -5,7 +5,7 @@ window.updateTask = updateTask;
 window.editTask = editTask;
 const API_BASE_URL = 'https://todo-app-csoc.herokuapp.com/';
 
-function getTasks() {
+export function getTasks() {
     
      const headersForApiRequest = {
         Authorization: 'Token ' + localStorage.getItem('token')
