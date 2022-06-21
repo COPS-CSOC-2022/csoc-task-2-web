@@ -244,8 +244,10 @@ function searchTask() {
                     return;
                 }
             }
+            document.getElementById('searchTask').value = null;
             displayErrorToast("The task was not found!");
         }).catch(function(err) {
+            document.getElementById('searchTask').value = null;
             displayErrorToast("There was an error! Try again!");
         })
     }
