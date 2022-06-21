@@ -220,8 +220,9 @@ function searchTask(){
     }).then(function ({ data, status }) {
         console.log(data);
         for (var j = 0; j < data.length; j++) if (data[j].title == taskforSearch){
-            taskList.innerHTML = "";
             displaySuccessToast("Task found");
+            document.getElementById('tasksList').innerHTML = " ";
+            
             
             return;
         }
