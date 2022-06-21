@@ -142,14 +142,14 @@ function addTask() {
     })
 }
 
-function editTask(id) {
+export function editTask(id) {
     document.getElementById('task-' + id).classList.add('hideme');
     document.getElementById('task-actions-' + id).classList.add('hideme');
     document.getElementById('input-button-' + id).classList.remove('hideme');
     document.getElementById('done-button-' + id).classList.remove('hideme');
 }
 
-function deleteTask(id) {
+export function deleteTask(id) {
    displayInfoToast("Deleting Task");
 
      const headersForApiRequest = {
@@ -168,7 +168,7 @@ function deleteTask(id) {
      })
 }
 
-function updateTask(id) {
+export function updateTask(id) {
     const newTask = document.getElementById("input-button-" + id).value.trim();
     const task = document.getElementById("task-" + id);
 
