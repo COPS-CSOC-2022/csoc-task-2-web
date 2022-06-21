@@ -11,6 +11,9 @@
     margin-bottom:30px;
     max-width:400px;
 }
+.todo-search-task {
+    max-width:400px;
+}
 
 .todo-available-tasks-text {
     margin-left:30%;
