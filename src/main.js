@@ -2,7 +2,8 @@ import axios from 'axios';
 import exports from "./init.js";
 
 setClickListeners();
-setDeleteListeners();
+setBtnGrpListeners(".btn-task-del", deleteTask);
+setBtnGrpListeners(".btn-task-edit", editTask);
 
 function setClickListeners() {
     const btnArrays = [];
@@ -22,12 +23,14 @@ function setClickListeners() {
     }); 
 }
 
-function setDeleteListeners() {
-    const deleteBtns = Array.from(document.querySelectorAll(".btn-task-del"));
+// this function sets up event listeners for a group of buttons, like delete or edit buttons of tasks,
+// using a 'func' argument function passed in, which operates on the button's dataset.id property
+function setBtnGrpListeners(queryString, func) {
+    const btns = Array.from(document.querySelectorAll(queryString));
 
-    deleteBtns.forEach((element) => {
+    btns.forEach((element) => {
         element.addEventListener("click", () => {
-            deleteTask(element.dataset.id);
+            func(element.dataset.id);
         });
     });
 }
@@ -106,10 +109,10 @@ function register() {
             method: 'post',
             data: dataForApiRequest,
         }).then(function({data, status}) {
-          localStorage.setItem('token', data.token);
-          window.location.href = '/';
+            localStorage.setItem('token', data.token);
+            window.location.href = '/';
         }).catch(function(err) {
-          displayErrorToast('An account using same email or username is already created');
+            displayErrorToast('An account using same email or username is already created');
         })
     }
 }
@@ -171,19 +174,24 @@ function addTask() {
         title: newTask
     };
 
-    axios({
-        headers: {
-            Authorization: "Token " + localStorage.getItem("token"),
-        },
-        url: API_BASE_URL + "todo/create/",
-        method: 'post',
-        data: createTaskData
-    }).then((data, status) => {
-        console.log(data, status);
-        exports.getTasks();
-    }).catch(err => {
-        
-    })
+    if (newTask.length > 0) {
+        axios({
+            headers: {
+                Authorization: "Token " + localStorage.getItem("token"),
+            },
+            url: API_BASE_URL + "todo/create/",
+            method: 'post',
+            data: createTaskData
+        }).then((data, status) => {
+            console.log(data, status);
+            exports.getTasks();
+        }).catch(err => {
+            
+        });    
+    }
+
+    document.querySelector("#add-task-input").value = "";
+
 }
 
 function editTask(id) {
@@ -225,7 +233,9 @@ function updateTask(id) {
 }
 
 const mainJsExports = {
-    setDeleteListeners
-}
+    setBtnGrpListeners, 
+    deleteTask,
+    editTask
+};
 
 export default mainJsExports;
