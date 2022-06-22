@@ -12,13 +12,13 @@ const cancelBtn = document.getElementById('cancel-btn');
 window.onload = ()=>{
 
     if(loginBtn)
-        loginBtn.onclick = login;
+        loginBtn.onclick = login
     
     if(logoutBtn)
-        logoutBtn.onclick = logout;
+        logoutBtn.onclick = logout
     
     if(registerBtn)
-        registerBtn.onclick = register;
+        registerBtn.onclick = register
     
     if(addtaskBtn)
         addtaskBtn.onclick = addTask;
