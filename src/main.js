@@ -3,12 +3,12 @@ import { getTasks } from './init';
 window.deleteTask = deleteTask;
 window.updateTask = updateTask;
 window.editTask = editTask;
-const loginBtn = document.getElementById('login-btn');
-const logoutBtn = document.getElementById('logout-btn');
-const registerBtn = document.getElementById('register-btn');
-const addtaskBtn = document.getElementById('add-task');
-const searchBtn = document.getElementById('search-btn');
-const cancelBtn = document.getElementById('cancel-btn');
+const loginBtn = document.getElementById('loginBtn');
+const logoutBtn = document.getElementById('logoutButton');
+const registerBtn = document.getElementById('register');
+const addtaskBtn = document.getElementById('addTaskButton');
+const searchBtn = document.getElementById('searchTaskBtn');
+// const cancelBtn = document.getElementById('cancel-btn');
 window.onload = ()=>{
 
     if(loginBtn)
@@ -26,8 +26,8 @@ window.onload = ()=>{
     if(searchBtn)
         searchBtn.onclick = search;
     
-    if(cancelBtn)
-        cancelBtn.onclick = cancel;
+    // if(cancelBtn)
+    //     cancelBtn.onclick = cancel;
     }
 function displaySuccessToast(message) {
     iziToast.success({
