@@ -2,6 +2,7 @@ import axios from 'axios';
 import exports from "./init.js";
 
 setClickListeners();
+setDeleteListeners();
 
 function setClickListeners() {
     const btnArrays = [];
@@ -19,6 +20,16 @@ function setClickListeners() {
             });
         }
     }); 
+}
+
+function setDeleteListeners() {
+    const deleteBtns = Array.from(document.querySelectorAll(".btn-task-del"));
+
+    deleteBtns.forEach((element) => {
+        element.addEventListener("click", () => {
+            deleteTask(element.dataset.id);
+        });
+    });
 }
 
 function displaySuccessToast(message) {
@@ -188,6 +199,21 @@ function deleteTask(id) {
      * @todo 1. Send the request to delete the task to the backend server.
      * @todo 2. Remove the task from the dom.
      */
+
+    // console.log(id);
+    axios({
+        headers: {
+            Authorization: "Token " + localStorage.getItem("token"),
+        },
+        url: API_BASE_URL + `todo/${id}`,
+        method: 'delete',
+    }).then((data, status) => {
+        console.log(data, status);
+        displaySuccessToast("The task has been successfully deleted :)");
+        exports.getTasks();
+    }).catch(err => {
+        displayErrorToast("Some error occurred and we could not delete the task :(");
+    })
 }
 
 function updateTask(id) {
@@ -197,3 +223,9 @@ function updateTask(id) {
      * @todo 2. Update the task in the dom.
      */
 }
+
+const mainJsExports = {
+    setDeleteListeners
+}
+
+export default mainJsExports;

@@ -1,4 +1,6 @@
 import axios from 'axios';
+import mainJsImports from "./main.js";
+
 const API_BASE_URL = 'https://todo-app-csoc.herokuapp.com/';
 
 function createTaskLi(data) {
@@ -25,7 +27,7 @@ function createTaskLi(data) {
                     <img src="https://res.cloudinary.com/nishantwrp/image/upload/v1587486663/CSOC/edit.png"
                         width="18px" height="20px">
                 </button>
-                <button type="button" class="btn btn-outline-danger">
+                <button type="button" class="btn btn-outline-danger btn-task-del" data-id="${element.id}" id="btn-task-del-${index}">
                     <img src="https://res.cloudinary.com/nishantwrp/image/upload/v1587486661/CSOC/delete.svg"
                         width="18px" height="22px">
                 </button>
@@ -52,6 +54,8 @@ function getTasks() {
         console.log(data);
         
         createTaskLi(data);
+
+        mainJsImports.setDeleteListeners();
     });
 }
 
