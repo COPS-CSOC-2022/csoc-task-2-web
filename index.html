@@ -20,6 +20,7 @@
             display: none !important;
         }
     </style>
+    <style> .hideme { display: none !important; } </style>
 </head>
 
 <body>
@@ -46,6 +47,7 @@
                             <img src="#" class="rounded-circle" id="avatar-image"><span class="todo-profile-name" id="profile-name">Loading ...</span></a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="#" onclick="logout()">Logout</a>
+                            <a class="dropdown-item" href="#" id="logoutButton">Logout</a>
                         </div>
                     </li>
                 </ul>
@@ -55,8 +57,16 @@
     <center>
         <div class="input-group mb-3 todo-add-task">
             <input type="text" class="form-control" placeholder="Enter Task">
+            <input type="text" class="form-control" placeholder="Enter Task" id="inputTask">
             <div class="input-group-append">
                 <button type="button" class="btn btn-outline-success" onclick="addTask()">Add Task</button>
+                <button type="button" class="btn btn-outline-success" id="addTaskButton" style="width:115px">Add Task</button>
+            </div>
+        </div>
+        <div class="input-group mb-3 todo-search-task">
+            <input type="text" class="form-control" placeholder="Search Task" id="searchTask">
+            <div class="input-group-append">
+                <button type="button" class="btn btn-outline-success" id="searchTaskButton" style="width:115px">Search Task</button>
             </div>
         </div>
         <ul class="list-group todo-available-tasks">
@@ -110,6 +120,8 @@
                     </span>
             </li>
 
+            <span class="badge badge-primary badge-pill todo-available-tasks-text">Available Tasks</span>
+            <div id="tasksList"></div>
 
         </ul>
     </center>
