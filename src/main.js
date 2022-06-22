@@ -108,26 +108,29 @@ function login() {
      */
      const username = document.getElementById('inputUsername').value.trim();
      const password = document.getElementById('inputPassword').value;
-
-     if (loginFieldsAreValid(username, password)) {
-        displayInfoToast("Please wait...");
-
-        const dataForApiRequest = {
-            username: username,
-            password: password
-        }
-
-        axios({
-            url: API_BASE_URL + 'auth/login/',
-            method: 'post',
-            data: dataForApiRequest,
-        }).then(function({data, status}) {
-          localStorage.setItem('token', data.token);
-          window.location.href = '/';
-        }).catch(function(err) {
-          displayErrorToast('Invalid username or password');
-        })
-    }
+ 
+     if (username == '' || password == '') {
+         displayErrorToast("Please fill all the required fields.");
+         return;
+     }
+     displayInfoToast("Loading");
+     const dataForApiRequest = {
+         username: username,
+         password: password
+     }
+     axios({
+         url: API_BASE_URL + 'auth/login/',
+         method: 'POST',
+         data: dataForApiRequest,
+     }).then(function ({ data, status }) {
+         displaySuccessToast("Logged in successfully");
+         localStorage.setItem('token', data.token);
+         window.location.href = '/';
+     }).catch(function (err) {
+         displayErrorToast("Invalid credentials");
+         document.getElementById('inputUsername').value = '';
+         document.getElementById('inputPassword').value = '';
+     })
 }
 
 function addTask() {
