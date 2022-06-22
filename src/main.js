@@ -198,6 +198,36 @@ export function deleteTask(id) {
          displayErrorToast("Unable to delete task. Please try again...");
      })
 }
+function searchTask(){
+    const taskforSearch = document.getElementById('searchTask').value.trim();
+
+    if (taskforSearch == '') {
+        displayErrorToast("Invalid Task Title : Empty");
+        return;
+    }
+
+    displayInfoToast("Searching");
+
+    const headersForApiRequest = {
+        Authorization: 'Token ' + localStorage.getItem('token')
+    }
+
+    axios({
+        headers: headersForApiRequest,
+        url: API_BASE_URL + 'todo/',
+        method: 'GET',
+    }).then(function ({ data, status }) {
+        console.log(data);
+        for (var j = 0; j < data.length; j++) if (data[j].title == taskforSearch){
+            displaySuccessToast("Task found");
+            
+            
+            
+            return;
+        }
+        displayErrorToast("Specified task does not exist")
+    })
+}
 
 export function updateTask(id) {
     /**
@@ -229,33 +259,4 @@ export function updateTask(id) {
      }).catch(function (err) {
         displayErrorToast("Oops ! Something went wrong . ");
      })
-}
-function searchTask(){
-    const task = document.getElementById('searchTask').value.trim();
-
-    if (task == '') {
-        displayErrorToast("Field cannot be left empty!..");
-        return;
-    }
-
-    displayInfoToast("Loading...");
-
-    const headersForApiRequest = {
-        Authorization: 'Token ' + localStorage.getItem('token')
-    }
-
-    axios({
-        headers: headersForApiRequest,
-        url: API_BASE_URL + 'todo/',
-        method: 'GET',
-    }).then(function ({ data, status }) {
-        console.log(data);
-        for (var index = 0; index < data.length; index++) if (data[index].title == task){
-            taskList.innerHTML = "";
-            displaySuccessToast("Task Present");
-            displayTask(data[index].id, data[index].title);
-            return;
-        }
-        displayErrorToast("Task Not Found.")
-    })
 }
