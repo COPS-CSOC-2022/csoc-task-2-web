@@ -145,6 +145,15 @@ function addTask() {
      const dataForApiRequest = {
          title: title
      }
+     export function editTask(id) {
+        document.getElementById('task-' + id).classList.add('hideme');
+        document.getElementById('task-actions-' + id).classList.add('hideme');
+        document.getElementById('input-button-' + id).classList.remove('hideme');
+        document.getElementById('done-button-' + id).classList.remove('hideme');
+    }
+    
+    export function deleteTask(id) {
+       displayInfoToast("Deleting Task");
      
      axios({
          headers: {
