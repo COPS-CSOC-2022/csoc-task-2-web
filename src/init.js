@@ -6,7 +6,7 @@ window.updateTask = updateTask;
 window.editTask = editTask;
 const taskList = document.getElementById("taskList");
 
-function getTasks() {
+export function getTasks() {
     /***
      * @todo Fetch the tasks created by the user and display them in the dom.
      */
