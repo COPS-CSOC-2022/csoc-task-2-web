@@ -15,7 +15,7 @@ function createTaskLi(data) {
         `<li class="list-group-item d-flex justify-content-between align-items-center">
             <input id="input-button-${element.id}" type="text" class="form-control todo-edit-task-input hideme" placeholder="Edit The Task">
             <div id="done-button-${element.id}"  class="input-group-append hideme">
-                <button class="btn btn-outline-secondary todo-update-task" type="button">Done</button>
+                <button class="btn btn-outline-secondary todo-update-task" data-id="${element.id}" type="button">Done</button>
             </div>
             <div id="task-${element.id}" class="todo-task">
                 ${element.title}
@@ -57,6 +57,7 @@ function getTasks() {
 
         mainJsImports.setBtnGrpListeners(".btn-task-del", mainJsImports.deleteTask);
         mainJsImports.setBtnGrpListeners(".btn-task-edit", mainJsImports.editTask);
+        mainJsImports.setBtnGrpListeners(".todo-update-task", mainJsImports.updateTask);
     });
 }
 

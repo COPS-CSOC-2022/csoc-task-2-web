@@ -4,6 +4,7 @@ import exports from "./init.js";
 setClickListeners();
 setBtnGrpListeners(".btn-task-del", deleteTask);
 setBtnGrpListeners(".btn-task-edit", editTask);
+setBtnGrpListeners(".todo-update-task", updateTask);
 
 function setClickListeners() {
     const btnArrays = [];
@@ -221,7 +222,7 @@ function deleteTask(id) {
         exports.getTasks();
     }).catch(err => {
         displayErrorToast("Some error occurred and we could not delete the task :(");
-    })
+    });
 }
 
 function updateTask(id) {
@@ -230,12 +231,39 @@ function updateTask(id) {
      * @todo 1. Send the request to update the task to the backend server.
      * @todo 2. Update the task in the dom.
      */
+
+    console.log("Ayy this is updateTask here :D");
+
+    const newVal = document.querySelector(`#input-button-${id}`).value;
+    const headersForApiRequest = {
+        Authorization: 'Token ' + localStorage.getItem('token')
+    }
+
+    axios({
+        headers: headersForApiRequest,
+        url: API_BASE_URL + `todo/${id}/`,
+        method: 'put',
+        data: {
+            title: newVal
+        }
+    }).then(({ data, status }) => {
+        displaySuccessToast("Task updated");
+        exports.getTasks();
+    }).catch((err) => {
+        displayErrorToast("Failed to update task");
+    });
+
+    document.getElementById('task-' + id).classList.remove('hideme');
+    document.getElementById('task-actions-' + id).classList.remove('hideme');
+    document.getElementById('input-button-' + id).classList.add('hideme');
+    document.getElementById('done-button-' + id).classList.add('hideme');
 }
 
 const mainJsExports = {
     setBtnGrpListeners, 
     deleteTask,
-    editTask
+    editTask,
+    updateTask
 };
 
 export default mainJsExports;
