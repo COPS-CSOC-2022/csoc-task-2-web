@@ -174,7 +174,7 @@ function addTask() {
      })
 }
 
-function editTask(id) {
+export function editTask(id) {
     document.getElementById('task-' + id).classList.add('hideme');
     document.getElementById('task-actions-' + id).classList.add('hideme');
     document.getElementById('input-button-' + id).classList.remove('hideme');
@@ -182,7 +182,7 @@ function editTask(id) {
 }
 
 
-function deleteTask(id) {
+export function deleteTask(id) {
     /**
      * @todo Complete this function.
      * @todo 1. Send the request to delete the task to the backend server.
@@ -206,7 +206,7 @@ function deleteTask(id) {
      })
 }
 
-function updateTask(id) {
+export function updateTask(id) {
     /**
      * @todo Complete this function.
      * @todo 1. Send the request to update the task to the backend server.
