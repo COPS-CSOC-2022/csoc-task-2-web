@@ -13,21 +13,21 @@ function createTaskLi(data) {
 
         document.querySelector("#final-list").innerHTML += 
         `<li class="list-group-item d-flex justify-content-between align-items-center">
-            <input id="input-button-${index}" type="text" class="form-control todo-edit-task-input hideme" placeholder="Edit The Task">
-            <div id="done-button-${index}"  class="input-group-append hideme">
+            <input id="input-button-${element.id}" type="text" class="form-control todo-edit-task-input hideme" placeholder="Edit The Task">
+            <div id="done-button-${element.id}"  class="input-group-append hideme">
                 <button class="btn btn-outline-secondary todo-update-task" type="button">Done</button>
             </div>
-            <div id="task-${index}" class="todo-task">
+            <div id="task-${element.id}" class="todo-task">
                 ${element.title}
             </div>
 
-            <span id="task-actions-${index}">
+            <span id="task-actions-${element.id}">
                 <button style="margin-right:5px;" type="button"
-                    class="btn btn-outline-warning" id="" >
+                    class="btn btn-outline-warning btn-task-edit" id="" data-id="${element.id}">
                     <img src="https://res.cloudinary.com/nishantwrp/image/upload/v1587486663/CSOC/edit.png"
                         width="18px" height="20px">
                 </button>
-                <button type="button" class="btn btn-outline-danger btn-task-del" data-id="${element.id}" id="btn-task-del-${index}">
+                <button type="button" class="btn btn-outline-danger btn-task-del" data-id="${element.id}" id="task-${element.id}">
                     <img src="https://res.cloudinary.com/nishantwrp/image/upload/v1587486661/CSOC/delete.svg"
                         width="18px" height="22px">
                 </button>
@@ -55,7 +55,8 @@ function getTasks() {
         
         createTaskLi(data);
 
-        mainJsImports.setDeleteListeners();
+        mainJsImports.setBtnGrpListeners(".btn-task-del", mainJsImports.deleteTask);
+        mainJsImports.setBtnGrpListeners(".btn-task-edit", mainJsImports.editTask);
     });
 }
 
