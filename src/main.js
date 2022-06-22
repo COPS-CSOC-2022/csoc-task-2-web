@@ -45,6 +45,7 @@ export function editTask(id) {
 
 export function deleteTask(id) {
    displayInfoToast("Deleting Task");
+}
 
 function displayErrorToast(message) {
     iziToast.error({
