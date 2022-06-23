@@ -1,10 +1,41 @@
 import axios from 'axios';
+import { getTasks } from './init';
+window.deleteTask = deleteTask;
+window.updateTask = updateTask;
+window.editTask = editTask;
+const loginBtn = document.getElementById('loginBtn');
+const logoutBtn = document.getElementById('logoutButton');
+const registerBtn = document.getElementById('register');
+const addtaskBtn = document.getElementById('addTaskButton');
+const searchBtn = document.getElementById('searchTaskBtn');
+// const cancelBtn = document.getElementById('cancel-btn');
+window.onload = ()=>{
+
+    if(loginBtn)
+        loginBtn.onclick = login
+    
+    if(logoutBtn)
+        logoutBtn.onclick = logout
+    
+    if(registerBtn)
+        registerBtn.onclick = register
+    
+    if(addtaskBtn)
+        addtaskBtn.onclick = addTask;
+    
+    if(searchBtn)
+        searchBtn.onclick = search;
+    
+    // if(cancelBtn)
+    //     cancelBtn.onclick = cancel;
+    }
 function displaySuccessToast(message) {
     iziToast.success({
         title: 'Success',
         message: message
     });
 }
+
 
 function displayErrorToast(message) {
     iziToast.error({
@@ -75,6 +106,31 @@ function login() {
      * @todo 1. Write code for form validation.
      * @todo 2. Fetch the auth token from backend, login and direct user to home page.
      */
+     const username = document.getElementById('inputUsername').value.trim();
+     const password = document.getElementById('inputPassword').value;
+ 
+     if (username == '' || password == '') {
+         displayErrorToast("Please fill all the required fields.");
+         return;
+     }
+     displayInfoToast("Loading");
+     const dataForApiRequest = {
+         username: username,
+         password: password
+     }
+     axios({
+         url: API_BASE_URL + 'auth/login/',
+         method: 'POST',
+         data: dataForApiRequest,
+     }).then(function ({ data, status }) {
+         displaySuccessToast("Logged in successfully");
+         localStorage.setItem('token', data.token);
+         window.location.href = '/';
+     }).catch(function (err) {
+         displayErrorToast("Invalid credentials");
+         document.getElementById('inputUsername').value = '';
+         document.getElementById('inputPassword').value = '';
+     })
 }
 
 function addTask() {
@@ -83,27 +139,124 @@ function addTask() {
      * @todo 1. Send the request to add the task to the backend server.
      * @todo 2. Add the task in the dom.
      */
+     const title = document.getElementById('new-task').value.trim();
+
+     if (title == '') {
+         displayErrorToast("Field cannot be empty.");
+         return;
+     }
+ 
+     const dataForApiRequest = {
+         title: title
+     }
+     
+     
+     axios({
+         headers: {
+             Authorization: "Token " + localStorage.getItem("token"),
+         },
+         url: API_BASE_URL + 'todo/create/',
+         method: 'post',
+         data: dataForApiRequest,
+     }).then(function ({ data, status }) {
+         displaySuccessToast("Task added.");
+         getTasks();
+         document.getElementById('new-task').value ="";
+     }).catch(function (err) {
+         displayErrorToast("Something went wrong.");
+     })
 }
 
-function editTask(id) {
+export function editTask(id) {
     document.getElementById('task-' + id).classList.add('hideme');
     document.getElementById('task-actions-' + id).classList.add('hideme');
     document.getElementById('input-button-' + id).classList.remove('hideme');
     document.getElementById('done-button-' + id).classList.remove('hideme');
 }
 
-function deleteTask(id) {
+
+export function deleteTask(id) {
     /**
      * @todo Complete this function.
      * @todo 1. Send the request to delete the task to the backend server.
      * @todo 2. Remove the task from the dom.
      */
+     displayInfoToast("Loading...");
+
+     const headersForApiRequest = {
+         Authorization: 'Token ' + localStorage.getItem('token')
+     }
+ 
+     axios({
+         headers: headersForApiRequest,
+         url: API_BASE_URL + 'todo/' + id + '/',
+         method: 'DELETE',
+     }).then(function ({ data, status }) {
+         displaySuccessToast("Task deleted successfully...");
+         getTasks();
+     }).catch(function (err) {
+         displayErrorToast("Unable to delete task. Please try again...");
+     })
+}
+function searchTask(){
+    const taskforSearch = document.getElementById('searchTask').value.trim();
+
+    if (taskforSearch == '') {
+        displayErrorToast("Invalid Task Title : Empty");
+        return;
+    }
+
+    displayInfoToast("Searching");
+
+    const headersForApiRequest = {
+        Authorization: 'Token ' + localStorage.getItem('token')
+    }
+
+    axios({
+        headers: headersForApiRequest,
+        url: API_BASE_URL + 'todo/',
+        method: 'GET',
+    }).then(function ({ data, status }) {
+        console.log(data);
+        for (var j = 0; j < data.length; j++) if (data[j].title == taskforSearch){
+            displaySuccessToast("Task found");
+            
+            
+            
+            return;
+        }
+        displayErrorToast("Specified task does not exist")
+    })
 }
 
-function updateTask(id) {
+export function updateTask(id) {
     /**
      * @todo Complete this function.
      * @todo 1. Send the request to update the task to the backend server.
      * @todo 2. Update the task in the dom.
      */
+     const taskname =document.getElementById("input-button-" + id).value.trim();
+    
+     if (taskname == ""){
+         displayErrorToast("Task name cannot be empty .");
+         return;
+     }
+ 
+     const dataForApiRequest = {
+         title: taskname
+     }
+     
+    axios({
+        headers: {
+            Authorization: "Token " + localStorage.getItem("token"),
+        },
+        url: API_BASE_URL + 'todo/' + id + '/',
+        method: 'put',
+        data: dataForApiRequest,
+     }).then(function ({ data, status }) {
+        displaySuccessToast("Task updated successfully .");
+        getTasks();
+     }).catch(function (err) {
+        displayErrorToast("Oops ! Something went wrong . ");
+     })
 }
