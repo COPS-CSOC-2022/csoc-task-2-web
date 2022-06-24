@@ -75,6 +75,29 @@ function login() {
      * @todo 1. Write code for form validation.
      * @todo 2. Fetch the auth token from backend, login and direct user to home page.
      */
+     const username = document.getElementById('inputUsername').value.trim();
+     const password = document.getElementById('inputPassword').value;
+    // validation
+    if (username === '' || password === '') {
+        displayErrorToast("Please enter correct credentials!!");
+        return;
+    }
+     const dataForApiRequest = {
+        username: username,
+        password: password
+    }
+    axios({
+        url: API_BASE_URL + 'auth/login/',
+        method: 'post',
+        data: dataForApiRequest,
+    }).then(function({data, status}) {
+      window.localStorage.setItem("token",data.token);
+      console.log(data.token);
+      console.log(window.localStorage.getItem("token"));
+      window.location.href = '/';
+    }).catch(function(err) {
+      displayErrorToast('Invalid Login Credentials!!');
+    })
 }
 
 function addTask() {
@@ -83,6 +106,27 @@ function addTask() {
      * @todo 1. Send the request to add the task to the backend server.
      * @todo 2. Add the task in the dom.
      */
+    let task = document.querySelector(".form-control").value;
+    const dataForApiRequest = {
+     title: task
+    }
+    const header={
+        'Authorization': `Token ${window.localStorage.getItem('token')}`,
+        'Content-Type': "application/json"
+    }
+
+    axios({
+        url: API_BASE_URL + 'todo/create/',
+        method: 'post',
+        data: dataForApiRequest,
+        headers: header
+    }).then(function({data, status}) {
+     
+        getTasks();
+        document.querySelector(".form-control").value="";
+        document.querySelector(".form-control").placeholder="Enter your task";
+        displaySuccessToast("Task Added yee!!")
+    })
 }
 
 function editTask(id) {
@@ -98,6 +142,21 @@ function deleteTask(id) {
      * @todo 1. Send the request to delete the task to the backend server.
      * @todo 2. Remove the task from the dom.
      */
+     if(confirm("This task will be deleted")) {
+         const header={
+             'Authorization': `Token ${window.localStorage.getItem('token')}`,
+             'Content-Type': "application/json"
+         }
+ 
+         axios({
+             url: API_BASE_URL + `todo/${id}/`,
+             method: 'delete',
+             headers: header
+         }).then(function({data, status}) {
+             displaySuccessToast("Task Deleted")
+             getTasks();
+         })
+     }
 }
 
 function updateTask(id) {
@@ -106,4 +165,38 @@ function updateTask(id) {
      * @todo 1. Send the request to update the task to the backend server.
      * @todo 2. Update the task in the dom.
      */
+     let update=document.querySelector(".todo-edit-task-input").value;
+     if(update)
+     {
+         const dataForApiRequest = {
+             title: update
+         }
+            const header={
+                'Authorization': `Token ${window.localStorage.getItem('token')}`,
+                'Content-Type': "application/json"
+            }
+        
+            axios({
+                url: API_BASE_URL + `todo/${id}/`,
+                method: 'patch',
+                data: dataForApiRequest,
+                headers: header
+            }).then(function({data, status}) {
+             
+                getTasks();
+                document.querySelector(".form-control").value="";
+                document.querySelector(".form-control").placeholder="Enter your task";
+                displaySuccessToast("Task Updated")
+            })
+     }
+     else
+     displayErrorToast('Task should nt be empty')
 }
+
+window.logout=logout
+window.updateTask=updateTask
+window.deleteTask=deleteTask
+window.editTask=editTask
+window.addTask=addTask;
+window.login=login;
+window.register=register;

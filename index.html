@@ -25,6 +25,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <a class="navbar-brand" href="#">Todo</a>
+        <input type="text" id="search-box" placeholder="Search your task here..." autocomplete="off">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -33,11 +34,8 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/">Tasks
-                        <span class="sr-only">(current)</span>
-                    </a>
                 </li>
-            </ul>
+            </ul>       
             <form class="form-inline my-2 my-lg-0">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item dropdown active">
@@ -45,13 +43,13 @@
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img src="#" class="rounded-circle" id="avatar-image"><span class="todo-profile-name" id="profile-name">Loading ...</span></a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#" onclick="logout()">Logout</a>
+                            <a class="dropdown-item" href="#" onclick="logout()">Log out</a>
                         </div>
                     </li>
                 </ul>
             </form>
         </div>
-    </nav>
+    </nav>   
     <center>
         <div class="input-group mb-3 todo-add-task">
             <input type="text" class="form-control" placeholder="Enter Task">
@@ -63,54 +61,6 @@
             <span class="badge badge-primary badge-pill todo-available-tasks-text">
                 Available Tasks
             </span>
-
-
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <input id="input-button-1" type="text" class="form-control todo-edit-task-input hideme" placeholder="Edit The Task">
-                    <div id="done-button-1"  class="input-group-append hideme">
-                        <button class="btn btn-outline-secondary todo-update-task" type="button" onclick="updateTask(1)">Done</button>
-                    </div>
-                    <div id="task-1" class="todo-task">
-                        Sample Task 1
-                    </div>
-
-                    <span id="task-actions-1">
-                        <button style="margin-right:5px;" type="button" onclick="editTask(1)"
-                            class="btn btn-outline-warning">
-                            <img src="https://res.cloudinary.com/nishantwrp/image/upload/v1587486663/CSOC/edit.png"
-                                width="18px" height="20px">
-                        </button>
-                        <button type="button" class="btn btn-outline-danger" onclick="deleteTask(1)">
-                            <img src="https://res.cloudinary.com/nishantwrp/image/upload/v1587486661/CSOC/delete.svg"
-                                width="18px" height="22px">
-                        </button>
-                    </span>
-            </li>
-
-
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <input id="input-button-2" type="text" class="form-control todo-edit-task-input hideme" placeholder="Edit The Task">
-                    <div id="done-button-2" class="input-group-append hideme">
-                        <button class="btn btn-outline-secondary todo-update-task" type="button" onclick="updateTask(2)">Done</button>
-                    </div>
-
-                    <div id="task-2" class="todo-task">
-                        Sample Task 2
-                    </div>
-                    <span id="task-actions-2">
-                        <button style="margin-right:5px;" type="button" onclick="editTask(2)"
-                            class="btn btn-outline-warning">
-                            <img src="https://res.cloudinary.com/nishantwrp/image/upload/v1587486663/CSOC/edit.png"
-                                width="18px" height="20px">
-                        </button>
-                        <button type="button" class="btn btn-outline-danger" onclick="deleteTask(2)">
-                            <img src="https://res.cloudinary.com/nishantwrp/image/upload/v1587486661/CSOC/delete.svg"
-                                width="18px" height="22px">
-                        </button>
-                    </span>
-            </li>
-
-
         </ul>
     </center>
     <script type="module" src="./src/init.js"></script>
