@@ -54,16 +54,15 @@
     </nav>
     <center>
         <div class="input-group mb-3 todo-add-task">
-            <input type="text" class="form-control" placeholder="Enter Task">
+            <input type="text" class="form-control" placeholder="Enter Task" id="add-task-input">
             <div class="input-group-append">
-                <button type="button" class="btn btn-outline-success" onclick="addTask()">Add Task</button>
+                <button type="button" class="btn btn-outline-success" id="add-task-btn">Add Task</button>
             </div>
         </div>
-        <ul class="list-group todo-available-tasks">
+        <ul class="list-group todo-available-tasks" id="final-list">
             <span class="badge badge-primary badge-pill todo-available-tasks-text">
                 Available Tasks
             </span>
-
 
             <li class="list-group-item d-flex justify-content-between align-items-center">
                     <input id="input-button-1" type="text" class="form-control todo-edit-task-input hideme" placeholder="Edit The Task">
@@ -75,7 +74,7 @@
                     </div>
 
                     <span id="task-actions-1">
-                        <button style="margin-right:5px;" type="button" onclick="editTask(1)"
+                        <button style="margin-right:5px;" type="button"
                             class="btn btn-outline-warning">
                             <img src="https://res.cloudinary.com/nishantwrp/image/upload/v1587486663/CSOC/edit.png"
                                 width="18px" height="20px">
@@ -98,7 +97,7 @@
                         Sample Task 2
                     </div>
                     <span id="task-actions-2">
-                        <button style="margin-right:5px;" type="button" onclick="editTask(2)"
+                        <button style="margin-right:5px;" type="button"
                             class="btn btn-outline-warning">
                             <img src="https://res.cloudinary.com/nishantwrp/image/upload/v1587486663/CSOC/edit.png"
                                 width="18px" height="20px">
