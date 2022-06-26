@@ -63,6 +63,7 @@ function register() {
         }).then(function({data, status}) {
           localStorage.setItem('token', data.token);
           window.location.href = '/';
+          console.log(fata.token);
         }).catch(function(err) {
           displayErrorToast('An account using same email or username is already created');
         })
@@ -75,6 +76,20 @@ function login() {
      * @todo 1. Write code for form validation.
      * @todo 2. Fetch the auth token from backend, login and direct user to home page.
      */
+    // const username=document.getElementById('inputUsername').value.time();
+    // const password=document.getElementById('inputPassword').value;
+    // if(username!='' || password!=''){
+    //     axios({
+    //         url: API_BASE_URL + 'auth/login/',
+    //         method:'post',
+    //         data:dataForApiRequest,
+    //     }).then(function({data,status}){
+    //         localStorage.setItem('token',data.token);
+    //         window.localStorage.href='/'
+    //     }).catch(function(err){
+    //         displayErrorToast('Some Error Occured!');
+    //     })
+    // }
 }
 
 function addTask() {
