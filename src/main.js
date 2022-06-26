@@ -19,7 +19,8 @@ function displayInfoToast(message) {
         message: message
     });
 }
-
+const logoutButton=document.querySelector("#logout-button");
+if(logoutButton)logoutButton.onclick=logout;
 const API_BASE_URL = 'https://todo-app-csoc.herokuapp.com/';
 
 function logout() {
@@ -38,7 +39,10 @@ function registerFieldsAreValid(firstName, lastName, email, username, password) 
     }
     return true;
 }
-
+const registerButton=document.querySelector("#register-button");
+if(registerButton)registerButton.onclick=register;
+const loginButton=document.querySelector("#login-button");
+if(loginButton)loginButton.onclick=login;
 function register() {
     const firstName = document.getElementById('inputFirstName').value.trim();
     const lastName = document.getElementById('inputLastName').value.trim();
@@ -63,7 +67,6 @@ function register() {
         }).then(function({data, status}) {
           localStorage.setItem('token', data.token);
           window.location.href = '/';
-          console.log(fata.token);
         }).catch(function(err) {
           displayErrorToast('An account using same email or username is already created');
         })
@@ -76,19 +79,25 @@ function login() {
      * @todo 1. Write code for form validation.
      * @todo 2. Fetch the auth token from backend, login and direct user to home page.
      */
-    const username=document.getElementById('inputUsername').value.time();
+    
+    const username=document.getElementById('inputUsername').value.trim();
     const password=document.getElementById('inputPassword').value;
     if(username!='' || password!=''){
+        const dataForApiRequest={
+            username:username,
+            password:password
+        }
         axios({
             url: API_BASE_URL + 'auth/login/',
             method:'post',
             data:dataForApiRequest,
-        }).then(function({data,status}){
+        }).then(({data,status})=>{
             localStorage.setItem('token',data.token);
-            window.localStorage.href='/'
+            window.localStorage.href='/';
         }).catch(function(err){
             displayErrorToast('Some Error Occured!');
         })
+        
     }
 }
 
