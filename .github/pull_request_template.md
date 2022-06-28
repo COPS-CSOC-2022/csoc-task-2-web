@@ -2,10 +2,12 @@
 
 I have completed the following tasks
 
-- [ ] Login
-- [ ] `auth_required.js` and `no_auth_required.js`
-- [ ] Add Task
-- [ ] Get Tasks
-- [ ] Edit Task
-- [ ] Delete Task
-- [ ] Bonus Task
+- [x] Login
+- [x] `auth_required.js` and `no_auth_required.js`
+- [x] Add Task
+- [x] Get Tasks
+- [x] Edit Task
+- [x] Delete Task
+- [x] Bonus Task
+
+[Deployed my website](https://todo-saiyam.vercel.app/)
