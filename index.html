@@ -45,7 +45,7 @@
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img src="#" class="rounded-circle" id="avatar-image"><span class="todo-profile-name" id="profile-name">Loading ...</span></a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#" onclick="logout()">Logout</a>
+                            <a class="dropdown-item" href="#" id='logoutBtn' >Logout</a>
                         </div>
                     </li>
                 </ul>
@@ -54,12 +54,12 @@
     </nav>
     <center>
         <div class="input-group mb-3 todo-add-task">
-            <input type="text" class="form-control" placeholder="Enter Task">
+            <input id="inpTask" type="text" class="form-control" placeholder="Enter Task">
             <div class="input-group-append">
-                <button type="button" class="btn btn-outline-success" onclick="addTask()">Add Task</button>
+                <button type="button" class="btn btn-outline-success" id="addTaskBtn" >Add Task</button>
             </div>
         </div>
-        <ul class="list-group todo-available-tasks">
+        <ul class="list-group todo-available-tasks" id="listOfTodos">
             <span class="badge badge-primary badge-pill todo-available-tasks-text">
                 Available Tasks
             </span>
