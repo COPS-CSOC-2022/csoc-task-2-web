@@ -5,18 +5,6 @@ window.deleteTask = deleteTask;
 window.updateTask = updateTask;
 window.editTask = editTask;
 
-const taskList = document.getElementById("taskList");
-const logoutButton = document.getElementById("logoutButton");
-if (logoutButton) logoutButton.onclick = logout;
-const loginButton = document.getElementById("loginButton");
-if (loginButton) loginButton.onclick = login;
-const registerButton = document.getElementById("registerButton");
-if (registerButton) registerButton.onclick = register;
-const addTaskButton = document.getElementById("addTaskButton");
-if (addTaskButton) addTaskButton.onclick = addTask;
-const searchTaskButton = document.getElementById("searchTaskButton");
-if (searchTaskButton) searchTaskButton.onclick = searchTask;
-
 
 function displaySuccessToast(message) {
     iziToast.success({
@@ -38,6 +26,17 @@ function displayInfoToast(message) {
         message: message
     });
 }
+const taskList = document.getElementById("taskList");
+const logoutButton = document.getElementById("logoutButton");
+if (logoutButton) logoutButton.onclick = logout;
+const loginButton = document.getElementById("loginButton");
+if (loginButton) loginButton.onclick = login;
+const registerButton = document.getElementById("registerButton");
+if (registerButton) registerButton.onclick = register;
+const addTaskButton = document.getElementById("addTaskButton");
+if (addTaskButton) addTaskButton.onclick = addTask;
+const searchTaskButton = document.getElementById("searchTaskButton");
+if (searchTaskButton) searchTaskButton.onclick = searchTask;
 
 const API_BASE_URL = 'https://todo-app-csoc.herokuapp.com/';
 
