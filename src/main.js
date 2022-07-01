@@ -70,19 +70,115 @@ function register() {
 }
 
 function login() {
-    /***
-     * @todo Complete this function.
-     * @todo 1. Write code for form validation.
-     * @todo 2. Fetch the auth token from backend, login and direct user to home page.
-     */
+
+     const username = document.getElementById('inputUsername').value.trim();
+     const password = document.getElementById('inputPassword').value;
+
+    // Checking validation
+
+    if (username === '' || password === '') {
+        displayErrorToast("Do not use empty fields!");
+        return;
+    }
+     const dataForApiRequest = {
+        username: username,
+        password: password
+    }
+    
+    //fetching auth token from backend
+
+    axios({
+        url: API_BASE_URL + 'auth/login/',
+        method: 'POST',
+        data: dataForApiRequest,
+    }).then(function({data, status}) {
+      window.localStorage.setItem("token",data.token);
+      window.location.href = '/';
+      displaySuccessToast('Login was successful!!')
+    }).catch(function(err) {
+      displayErrorToast('Invalid credentials! :(');
+    })
 }
 
 function addTask() {
-    /**
-     * @todo Complete this function.
-     * @todo 1. Send the request to add the task to the backend server.
-     * @todo 2. Add the task in the dom.
-     */
+    
+    const newtask = document.getElementById("new-inp-task").value;
+
+    const dataForNewTask = {
+        title: newtask.trim()
+    }
+    axios({
+        url: API_BASE_URL + 'todo/create/',
+        method: 'POST',
+        headers: {
+            'Authorization': `token ${localStorage.getItem('token')}`,
+            'Content-Type': "application/json"
+        },
+        data: dataForNewTask
+    }).then(() => {
+        getTasks();
+        document.getElementById("new-inp-task").value='';
+        document.getElementById("new-inp-task").placeholder="Enter Task";
+        displaySuccessToast('Task added successfully!');
+    }).catch(function(err) {
+        displayErrorToast("There was an error! Try again!");
+    })
+}
+
+function searchTask() {
+
+    const search = document.getElementById('search-task').value.trim();
+
+    if(!search) {
+        displayErrorToast("Task cannot be empty!");
+    }
+    else {
+
+        axios({
+            url: API_BASE_URL + 'todo/',
+            method: 'get',
+            headers: {
+                Authorization: 'Token ' + localStorage.getItem('token'),
+            }
+        }).then(function({data, status}) {
+
+            for(let i=0; i<data.length; i++) {
+                if(data[i].title == search) {
+
+                    displaySuccessToast("Yay!! Task Found!");
+                    document.getElementById('search-task').value = null;
+                    
+                    document.getElementById('list-of-todos').innerHTML = 
+                    `
+                    <li class="list-group-item d-flex justify-content-between align-items-center" class="taskElement" id="taskElement-${data[i].id}">
+                    <input id="input-button-${data[i].id}" type="text" class="form-control todo-edit-task-input hideme" placeholder="Edit The Task">
+                    <div id="done-button-${data[i].id}"  class="input-group-append hideme">
+                    <button class="btn btn-outline-secondary todo-update-task" type="button" id="updateTaskButton${data[i].id}" onclick="updateTask(${data[i].id})">Done</button>
+                    </div>
+                    <div id="task-${data[i].id}" class="todo-task">
+                    ${data[i].title}
+                    </div>
+                    <span id="task-actions-${data[i].id}">
+                    <button style="margin-right:5px;" type="button" id="editTaskButton${data[i].id}" class="btn btn-outline-warning" onclick="editTask(${data[i].id})">
+                    <img src="https://res.cloudinary.com/nishantwrp/image/upload/v1587486663/CSOC/edit.png" width="18px" height="20px">
+                    </button>
+                    <button type="button" class="btn btn-outline-danger" id="deleteTaskButton${data[i].id}" onclick="deleteTask(${data[i].id})">
+                    <img src="https://res.cloudinary.com/nishantwrp/image/upload/v1587486661/CSOC/delete.svg" width="18px" height="22px">
+                    </button>
+                    </span>
+                    </li>
+                    `
+                    ;
+                    return;
+                }
+            }
+            document.getElementById('search-task').value = null;
+            displayErrorToast("There do not exist such task! :(");
+        }).catch(function(err) {
+            document.getElementById('search-task').value = null;
+            displayErrorToast("There was an error! Try again!");
+        })
+    }
 }
 
 function editTask(id) {
@@ -93,17 +189,54 @@ function editTask(id) {
 }
 
 function deleteTask(id) {
-    /**
-     * @todo Complete this function.
-     * @todo 1. Send the request to delete the task to the backend server.
-     * @todo 2. Remove the task from the dom.
-     */
+
+    if(confirm("Are you sure you want to delete this task?")) {
+
+        axios({
+            url: API_BASE_URL + `todo/${id}/`,
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Token ${window.localStorage.getItem('token')}`,
+                'Content-Type': "application/json"
+            }
+        }).then(() => {
+            displaySuccessToast("Task Deleted Succesfully!")
+            getTasks();
+        }).catch(function(err) {
+            displayErrorToast("There was an error! Try again!");
+        })
+    }
 }
 
 function updateTask(id) {
-    /**
-     * @todo Complete this function.
-     * @todo 1. Send the request to update the task to the backend server.
-     * @todo 2. Update the task in the dom.
-     */
+    const updatedTask=document.getElementById(`input-button-${id}`).value;
+
+    if(updatedTask==="") displayErrorToast("Cannot be a null string!"); 
+    else{
+        axios({
+            url: API_BASE_URL + `todo/${id}/`,
+            method: 'PUT',
+            headers: {
+                'Authorization': `Token ${window.localStorage.getItem('token')}`,
+                'Content-Type': "application/json"
+            },
+            data: {title: updatedTask}
+        }).then(() => {
+            getTasks();
+            displaySuccessToast('Task updated successfully!')
+        }).catch(function(err) {
+            displayErrorToast("There was an error! Try again!");
+        })
+    }
+    
+
 }
+
+window.register=register;
+window.login=login;
+window.logout=logout;
+window.addTask=addTask;
+window.searchTask=searchTask;
+window.editTask=editTask;
+window.updateTask=updateTask;
+window.deleteTask=deleteTask;
