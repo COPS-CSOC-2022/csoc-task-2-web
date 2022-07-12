@@ -93,7 +93,7 @@ function register() {
 
 function login() {
     const username = document.getElementById('inputUsername').value.trim();
-    const password = document.getElementById('inputPassword').value;
+    const password = document.getElementById('inputPassword').value.trim(); //always trim() password inorder to avoid any whitespace
 
     if (username == '' || password == '') {
         displayErrorToast("Please enter the required fields.");
