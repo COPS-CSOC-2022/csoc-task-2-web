@@ -7,6 +7,10 @@
     max-width:400px;
 }
 
+.todo-search-task {
+    margin-top:10px;
+    max-width:400px;
+}
 .todo-available-tasks {
     margin-bottom:30px;
     max-width:400px;
