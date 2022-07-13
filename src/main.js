@@ -62,7 +62,7 @@ function register() {
     const lastName = document.getElementById('inputLastName').value.trim();
     const email = document.getElementById('inputEmail').value.trim();
     const username = document.getElementById('inputUsername').value.trim();
-    const password = document.getElementById('inputPassword').value;
+    const password = document.getElementById('inputPassword').value.trim();
 
     if (registerFieldsAreValid(firstName, lastName, email, username, password)) {
         displayInfoToast("Loading...");
