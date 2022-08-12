@@ -19,8 +19,13 @@ function displayInfoToast(message) {
         message: message
     });
 }
-
+const logoutButton = document.querySelector("#logout-button");
+if (logoutButton) logoutButton.onclick = logout;
 const API_BASE_URL = 'https://todo-app-csoc.herokuapp.com/';
+window.editTask = editTask
+window.deleteTask = deleteTask
+window.updateTask = updateTask
+window.addTask = addTask
 
 function logout() {
     localStorage.removeItem('token');
@@ -38,7 +43,10 @@ function registerFieldsAreValid(firstName, lastName, email, username, password) 
     }
     return true;
 }
-
+const registerButton = document.querySelector("#register-button");
+if (registerButton) registerButton.onclick = register;
+const loginButton = document.querySelector("#login-button");
+if (loginButton) loginButton.onclick = login;
 function register() {
     const firstName = document.getElementById('inputFirstName').value.trim();
     const lastName = document.getElementById('inputLastName').value.trim();
@@ -60,11 +68,11 @@ function register() {
             url: API_BASE_URL + 'auth/register/',
             method: 'post',
             data: dataForApiRequest,
-        }).then(function({data, status}) {
-          localStorage.setItem('token', data.token);
-          window.location.href = '/';
-        }).catch(function(err) {
-          displayErrorToast('An account using same email or username is already created');
+        }).then(function ({ data, status }) {
+            localStorage.setItem('token', data.token);
+            window.location.href = '/';
+        }).catch(function (err) {
+            displayErrorToast('An account using same email or username is already created');
         })
     }
 }
@@ -75,7 +83,30 @@ function login() {
      * @todo 1. Write code for form validation.
      * @todo 2. Fetch the auth token from backend, login and direct user to home page.
      */
+
+    const username = document.getElementById('inputUsername').value.trim();
+    const password = document.getElementById('inputPassword').value;
+    if (username != '' || password != '') {
+        const dataForApiRequest = {
+            username: username,
+            password: password
+        }
+        axios({
+            url: API_BASE_URL + 'auth/login/',
+            method: 'post',
+            data: dataForApiRequest,
+        }).then(({ data, status }) => {
+            localStorage.setItem('token', data.token)
+            window.location.href = '/'
+        }).catch(function (err) {
+            displayErrorToast('Some Error Occured!');
+            console.log(err);
+        })
+
+    }
 }
+const addtask = document.querySelector("#add-task");
+if (addtask) addtask.onclick = addTask;
 
 function addTask() {
     /**
@@ -83,13 +114,25 @@ function addTask() {
      * @todo 1. Send the request to add the task to the backend server.
      * @todo 2. Add the task in the dom.
      */
-}
+    const newTask = document.getElementById('addtaskid').value;
+    axios({
+        url: API_BASE_URL + 'todo/create/',
+        method: 'post',
+        data: {
+            title: newTask
+        },
+        headers: {
+            Authorization: 'Token ' + window.localStorage.getItem('token')
+        }
+    }).then((data) => {
+        // document.getElementById('newTask').value = "";
+        // getTasks();
+        window.location.href = '/'
+    }).catch((err) => {
+        console.log(err);
+        displayErrorToast("Some Error Occured!");
+    })
 
-function editTask(id) {
-    document.getElementById('task-' + id).classList.add('hideme');
-    document.getElementById('task-actions-' + id).classList.add('hideme');
-    document.getElementById('input-button-' + id).classList.remove('hideme');
-    document.getElementById('done-button-' + id).classList.remove('hideme');
 }
 
 function deleteTask(id) {
@@ -98,6 +141,17 @@ function deleteTask(id) {
      * @todo 1. Send the request to delete the task to the backend server.
      * @todo 2. Remove the task from the dom.
      */
+    axios({
+        method: 'delete',
+        url: API_BASE_URL + 'todo/' + id+'/',
+        headers: {
+            Authorization: 'Token ' + window.localStorage.getItem('token')
+        }
+    }).then(() => {
+        window.location.href = '/'
+    }).catch((err) => {
+        displayErrorToast('Some Error Occurred!');
+    });
 }
 
 function updateTask(id) {
@@ -106,4 +160,30 @@ function updateTask(id) {
      * @todo 1. Send the request to update the task to the backend server.
      * @todo 2. Update the task in the dom.
      */
+    const inputButton = document.getElementById('input-button-' + id);
+    axios({
+        method: 'patch',
+        url: API_BASE_URL + 'todo/' + id + '/',
+        data: {
+            id: id,
+            title: inputButton.value
+        },
+        headers: {
+            Authorization: 'Token ' + window.localStorage.getItem('token')
+        }
+    }).then(({ data }) => {
+        document.getElementById('task-' + id).classList.remove('hideme');
+        document.getElementById('task-actions-' + id).classList.remove('hideme');
+        document.getElementById('input-button-' + id).classList.add('hideme');
+        document.getElementById('done-button-' + id).classList.add('hideme');
+        window.location.href = '/'
+        displaySuccessToast('Success')
+    })
+}
+
+function editTask(id) {
+    document.getElementById('task-' + id).classList.add('hideme');
+    document.getElementById('task-actions-' + id).classList.add('hideme');
+    document.getElementById('input-button-' + id).classList.remove('hideme');
+    document.getElementById('done-button-' + id).classList.remove('hideme');
 }
