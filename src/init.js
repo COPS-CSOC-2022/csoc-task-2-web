@@ -1,6 +1,6 @@
 import axios from 'axios';
 import addNew from './main';
-const API_BASE_URL = 'https://todo-app-csoc.herokuapp.com/';
+const API_BASE_URL = 'https://todo-api-s7vj.onrender.com/';
 
 function getTasks() {
     iziToast.info({
